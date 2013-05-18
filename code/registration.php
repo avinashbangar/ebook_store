@@ -7,22 +7,32 @@
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 
+		// $result = mysqli_query($con,"SELECT * FROM user WHERE email = '$email'");
+// 		if($result->num_rows == 1){
+// 			echo "You are already registered!";
 
-		$result = mysqli_query($con,"SELECT * FROM user WHERE email = '$email'");
-		if($result->num_rows == 1){
-			echo "You are already registered!";
-
-		}else{
-
-			$sql = "INSERT INTO user( first_name, last_name, email, password) VALUES ('$fname','$lname','$email','$password')";
-			if( !mysqli_query($con, $sql) ){
-				die( 'Error: '. mysqli_error() );
-			}else{
-				header('Location:index.php');
-			}
+		$stmt = $con->prepare("select * from user where email =?");
+		$stmt->bind_param("s",$email);
+		$stmt->execute();
+		if($stmt->fetch())
+		{
+		echo "You are already registered";
 		}
+		else{
+			 //create a prepared statement;
++  			$stmt = $con->prepare("insert into user(first_name,last_name, email, password) values (?,?,?,?)");
++    		//bind parameters for email and password;
+
++    		$stmt->bind_param("ssss", $fname, $lname, $email, $password);
++    
++    		//execute the query;
++     		$stmt->execute(); 
++       	header('Location:home.php');
+ 			$stmt->close();
+			}
 
 	}
+	
 ?>
 <html>
 <head>

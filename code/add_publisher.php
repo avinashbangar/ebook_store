@@ -9,20 +9,42 @@
 
 	if($_POST){
 		$name = $_POST['name'];
-		
-		$result = mysqli_query($con,"SELECT * FROM publisher WHERE name = '$name'");
-		if($result->num_rows == 1){
-			echo "Publisher already added to database!";
-
-		}else{
-			$sql = "INSERT INTO publisher( name) VALUES ('$name')";
-			if( !mysqli_query($con,$sql) ){
-				echo " ". mysqli_error();
-				die( 'Error: '. mysqli_error() );
-			}else{
-				header('Location:list.php?param=publisher');
-			}
+		$stmt = $con->prepare("select * from publisher where name=?");
+		$stmt->bind_param("s",$name);
+		$stmt->execute();
+		if($stmt->fetch()){
+		echo "Publisher already added to the database!";
 		}
+		else
+		{
+		$stmt->close();
+		$stmt1 = $con->prepare("insert into publisher(name) values (?)");
+		$stmt1->bind_param("s", $name);
+		
+		 if($stmt1->execute()){
+ 		header('Location:list.php?param=publisher');
+ 		}
+ 		else{
+ 		echo "Could not add the publisher, please try again!";
+ 		}
+         $stmt1->close();
+		}
+		
+		
+		
+	// 	$result = mysqli_query($con,"SELECT * FROM publisher WHERE name = '$name'");
+// 		if($result->num_rows == 1){
+// 			echo "Publisher already added to database!";
+// 
+// 		}else{
+// 			$sql = "INSERT INTO publisher( name) VALUES ('$name')";
+// 			if( !mysqli_query($con,$sql) ){
+// 				echo " ". mysqli_error();
+// 				die( 'Error: '. mysqli_error() );
+// 			}else{
+// 				header('Location:list.php?param=publisher');
+// 			}
+// 		}
 	}
 ?>
 <html>

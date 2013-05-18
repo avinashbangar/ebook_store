@@ -1,5 +1,4 @@
 <?php 
-//this is a file
 	session_start(); 
 	require 'connect.php';
 
@@ -12,21 +11,30 @@
 		$fname = trim($_POST['fname']);
 		$lname = trim($_POST['lname']);
 		
-		$result = mysqli_query($con,"SELECT * FROM author WHERE first_name = '$fname' and last_name = '$lname'");
-		if($result->num_rows == 1){
-			echo "Author already added to database!";
-
-		}else{
-			$sql = "INSERT INTO author( first_name, last_name) VALUES ('$fname','$lname')";
-			if( !mysqli_query($con,$sql) ){
-				echo " ". mysqli_error();
-				die( 'Error: '. mysqli_error() );
-
-			}else{
-				header('Location:list.php?param=author');
+		
+		$stmt = $con->prepare("select * from author where first_name=? and last_name=?");
+		$stmt->bind_param("ss",$fname,$lname);
+		$stmt->execute();
+		if($stmt->fetch()){
+		echo "Author already added to the database!";
 			}
+		
+		else{
+	
+		$stmt->close();
+		$stmt1 = $con->prepare("insert into author(first_name, last_name) values(?,?)");
+		$stmt1->bind_param("ss", $fname, $lname);
+		
+		 if($stmt1->execute()){
+ 		header('Location:list.php?param=author');
+ 		}
+ 		else{
+ 		echo "Could not add the author, please try again!";
+ 		}
+         $stmt1->close();
 		}
 	}
+	
 ?>
 <html>
 <head>
