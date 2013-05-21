@@ -7,7 +7,7 @@
 -- Server version: 5.1.66
 -- PHP Version: 5.3.2-1ubuntu4.18
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"; 
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(25) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
+  `pwd_timestamp` datetime,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
