@@ -6,20 +6,20 @@
 <html>
 <head>
 	<title>Welcome home!</title>
+	<link href="Styles/Home.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div align="center">	
+	<div class="content">	
 		<?php
 
 			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book");
-			echo "Welcome ".$_SESSION['cuser']."!";
+			echo "<p class='title'>Welcome ".$_SESSION['cuser']."!</p>";
 		?>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php" class="paragraph">Logout</a>
 
-				<p><b>Ebooks List</b></p>
-				<p><a href="search.php">Search</a>
-				    <table border="1">
-				    
+				<p class="paragraph_Center"><b>Ebooks List</b></p>
+				<p><a href="search.php" class="paragraph">Search</a>
+				    <table border="1" class="form">
 				    	<tr>
 				    		<td><b>ISBN</b></td>
 				    		<td><b>Title</b></td>
@@ -32,8 +32,6 @@
 				    		<td>&nbsp;</td>
 				    		
 				    	</tr>
-				    	
-				    
 					    <?php while($row = mysqli_fetch_array($result)){ 
 						?>
 							  <tr>
@@ -76,4 +74,3 @@
 					</table>
 	</div>
 </body>
-</html>

@@ -1,0 +1,45 @@
+/*-------------------------------- Styles for index.php --------------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+body   
+{
+	background-image:url('images/books.jpg');
+    font-size: .80em;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    color: black;
+    margin-right:500px;
+    margin-left:500px;
+    margin-top: 100px;
+}
+
+.content
+{
+	border-style:solid;
+	border-width:3px;
+	border-radius:5px;
+	background-color:white;
+ 	margin-left:150px!important;
+}
+
+.title
+{
+	font-size: 120%;
+	font-weight: bolder;
+	font-variant: small-caps;
+	text-decoration:underline;
+	margin-left:150px;
+}
+
+.paragraph
+{
+	margin-left:150px;
+}
+
+.form
+{
+	display:block;
+	margin-left:150px;
+}
+
+/*------------------------------------ Styles for home.php ---------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/

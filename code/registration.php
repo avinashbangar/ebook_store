@@ -38,12 +38,12 @@
 <head>
 	<title>Registration</title>
 	<script type="text/javascript" src="livevalidation_standalone.compressed.js"></script>
+	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-		<div align="center">	
-			
-			<a href="index.php">Login</a>
-			<form action="registration.php" method="POST">
+		<div class="content">				
+			<a href="index.php" class="title">Login</a>
+			<form action="registration.php" method="POST" class="form">
 				<table>
 					<tr>
 						<td>&nbsp;</td>
