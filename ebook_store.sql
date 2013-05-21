@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `publisher` (
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
-  `password` varchar(25) NOT NULL,
+  `password` char(128) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `pwd_timestamp` datetime,

@@ -1,9 +1,48 @@
  <?php
+ 
+ 	function GenerateRandomString()
+	{
+		$length = 15;
+		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+		return $randomString;
+	}
+	
+	function GenerateHashedString($input)
+	{
+		//Generates the hashed value of a string and returns its value
+		//$6 --> Algorithm prefix
+		//$rounds --> nº of times the algorithm is going to be looping
+		//$SillyString -->string used for encryption.
+		$hashed = crypt($input,'$6$rounds=8000$Pikachu3Dabai4$');
+		
+		//this will return the generated key
+		return substr($hashed,30);
+	}
+	
+	function UpdatePassword($hashedValue, $address)
+	{
+		$stmt = $con->prepare("UPDATE user SET password=? WHERE email=".$address);
+		//bind parameters for email and password
+		$stmt->bind_param("s", $hashedValue);
+		
+		//execute the query
+		 if(false == $stmt->execute()) {
+		 	printf("Unable to update password");
+		 }
+		 else {
+			 //bind result variable
+			 $stmt->bind_result($id);
+			 $stmt->close();
+		}
+	}
+	
+	
  	function sendMail($address)
 	{
-		echo "entrance mail";
+		$ticket = GenerateRandomString();
+
+		//We send the mail
 		require("./phpMailer/class.phpmailer.php"); // path to the PHPMailer class
-		echo "gets require";
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
 		$mail->Mailer = "smtp";
@@ -13,54 +52,20 @@
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
 		$mail->Password = "Tracasa06"; // SMTP password 
-		 
 		$mail->From     = "lareostia@gmail.com";
-		$mail->AddAddress("speleato@gmail.com");  
+		$mail->AddAddress($address);  
 		 
 		$mail->Subject  = "First PHPMailer Message";
-		$mail->Body     = "Hi! \n\n This is my first e-mail sent through PHPMailer.";
+		$mail->Body     = "Hi! \n\n This is your validation string to reset your password: ".$ticket.".";
 		$mail->WordWrap = 50;  
 		 
 		if(!$mail->Send()) {
-			echo 'Message was not sent.';
-			echo 'Mailer error: ' . $mail->ErrorInfo;
+			alert('Message was not sent.');
+			alert('Mailer error: ' . $mail->ErrorInfo);
 		} else {
-			echo 'Message has been sent.';
+			alert('Message has been sent.');
+			//We store the hashed value on the database
+			updatePassword(GenerateHashedString($ticket),$address);
 		}
 	}
-
-		/*$myemail = "admin@scu-ecommerce.dx.am"; //Caution: replace youremail@yourdomain.com with a vaild one you created in Email Manager 
-		$subject = "Password recovery";
-		$name = 'Ecommerce admin';
-		$email = $address;
-		$message = "This is a test message";
-		$headers = "From:Contact Form <admin@scu-ecommerce.dx.am>\r\n";
-		$headers .= "Reply-To: Admin <admin@scu-ecommerce.dx.am>\r\n";
-		alert("Your message has been sent successfully! (process in development, not really working)");
-		mail($myemail, $subject, $message, $headers);*/
-	
-	 /* include('phpMailer/class.phpmailer.php');
-		 include('phpMailer/class.smtp.php');
-		 $mail = new PHPMailer();
-		 $mail->IsSMTP();
-		 $mail->SMTPAuth = true;
-		 $mail->SMTPSecure = 'ssl';
-		 $mail->Host = 'mail.scu-ecommerce.dx.am/';
-		 $mail->Port = 220;
-		 $mail->Username = 'admin@scu-ecommerce.dx.am';
-		 $mail->Password = 'Ecommerce1';
-		 $mail->From = 'admin@scu-ecommerce.dx.am';
-		 $mail->FromName = 'Admin Ecommerce';
-		 $mail->Subject = 'testEmail';
-		 $mail->AltBody = 'This is a test mail';
-		 $mail->MsgHTML('This is a test mail');
-		 //$mail->AddAttachment('files/files.zip');
-		 //$mail->AddAttachment('files/img03.jpg');
-		 $mail->AddAddress('speleato@gmail.com', 'Destinatario');
-		 $mail->IsHTML(true);
-		 if(!$mail->Send()) {
-		 echo 'Error: ' . $mail->ErrorInfo;
-		 } else {
-		 echo 'Mensaje enviado correctamente';
-		 }*/
 ?> 

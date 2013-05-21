@@ -3,7 +3,6 @@
 	require 'connect.php';
 	require 'validation.php';
 	require 'mail.php';
-	
 	if($_POST)
 	{
 		$email = $_POST['email'];
