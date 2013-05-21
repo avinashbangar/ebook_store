@@ -2,54 +2,89 @@
 	require 'session.php';
 	require 'connect.php';
 
-	if($_POST){
-
-		$search_str = $_POST['search_text'];		
+	if($_POST)
+	{
+		$search_str = $_POST['search_text'];	
+		$success_flag = false;
+		$query_template = "SELECT isbn,title,edition,publisher_id,price,coverpage,
+								  author.id,author.first_name, author.last_name, 
+								  publisher.name
+								  FROM book, book_author, author, publisher 
+								  WHERE book.isbn=book_author.book_isbn AND book_author.author_id=author.id AND book.publisher_id=publisher.id";
 	
-		if($_POST['option'] == 'isbn'){
+		if($_POST['option'] == 'isbn')
+		{
+			
+			//create a prepared statement
+			if ($stmt = $con->prepare($query_template . " AND book.isbn = ?"))
+			{
+				$success_flag = true;
+				
+				//bind parameters for isbn
+				$stmt->bind_param("s", $search_str);
+			}
 	
-			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book WHERE isbn = '$search_str'");
+		}
+		else if($_POST['option'] == 'title')
+		{
+			//create a prepared statement
+			if ($stmt = $con->prepare($query_template . " AND book.title LIKE CONCAT('%', ?, '%')"))
+			{
+				$success_flag = true;
+				
+				//bind parameters for title
+				$stmt->bind_param("s", $search_str);
+			}	
 	
-		}else if($_POST['option'] == 'title'){
-	
-			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book WHERE title LIKE '%$search_str%'");
-	
-		}else if($_POST['option'] == 'author'){
-
+		}else if($_POST['option'] == 'author')
+		{
 			$search_arr = explode(" ",$search_str);
 			if(count($search_arr) == 1){ 
 				$search_arr[1] = '';
 			}
 			
-			$author_ids = mysqli_query($con,"SELECT id FROM author WHERE first_name LIKE '%$search_arr[0]%' or last_name LIKE '%$search_arr[0]%' or last_name LIKE '$search_arr[1]'");
-			$book_isbn_arr = array();
-
-			while($row = mysqli_fetch_array($author_ids)){
-				$author_id = $row['id'];
-				$book_isbn = mysqli_query($con,"SELECT book_isbn FROM book_author WHERE author_id = '$author_id'");
-				while($row1 = mysqli_fetch_array($book_isbn)){
-					array_push($book_isbn_arr,$row1['book_isbn']);
-				}
+			//create a prepared statement
+			if ($stmt = $con->prepare($query_template . " AND (
+																author.first_name LIKE CONCAT('%', ?, '%') 
+																OR author.last_name LIKE CONCAT('%', ?, '%') 
+																OR author.last_name LIKE CONCAT('%', ?, '%')
+															   )"))
+    		{
+				
+				$success_flag = true; 
+				
+				//bind parameters for title
+				$stmt->bind_param("sss", $search_arr[0], $search_arr[0], $search_arr[1]);			
 			}
-			$ids = join(',',$book_isbn_arr);
-			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book WHERE isbn IN ($ids)");
-
 		}else if($_POST['option'] == 'publisher'){
-
-			$pub_ids = mysqli_query($con,"SELECT id FROM publisher WHERE name LIKE '%$search_str%'");
-			$pub_id_arr = array();
-
-			while($row = mysqli_fetch_array($pub_ids)){
-				array_push($pub_id_arr,$row['id']);
+		
+			//create a prepared statement
+			if ($stmt = $con->prepare($query_template . " AND publisher.name LIKE CONCAT('%', ?, '%')"))
+    		{
+				$success_flag = true; 
+				
+				//bind parameter for publisher_id
+				$stmt->bind_param("s", $search_str);
 			}
-			$ids = join(',',$pub_id_arr);
-			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book WHERE publisher_id IN ($ids)");
 		}
-?>
+		
+		if($success_flag == true)
+		{				
+			//execute the query
+			if(false == $stmt->execute()) 
+			{
+				$success_flag = false;
+			}
+			else 
+			{
+				//bind result variables
+				$stmt->bind_result($isbn, $title, $edition, $publisher_id, $price, $coverpage, 
+									$author_id, $author_first_name, $author_last_name, $publisher_name);
+			}
+		}
+	}
 
-<?php	}
 ?>
-
 
 <html>
 <head>
@@ -90,50 +125,38 @@
 				    	</tr>
 				    	
 				    
-					    <?php if($result){
-					    		while($row = mysqli_fetch_array($result)){ 
+					    <?php if($success_flag){
+					    		while($stmt->fetch()){ 
 						?>
 								  <tr>
-								  	<td><?php echo $row['isbn']; ?></td>
-								  	<td><?php echo $row['title']; ?></td>
-								  	<td><?php echo $row['edition']; ?></td>
+								  	<td><?php echo $isbn; ?></td>
+								  	<td><?php echo $title; ?></td>
+								  	<td><?php echo $edition; ?></td>
 								  	<td>
 								  		<?php 
-								  				$author_id_res = mysqli_query($con,"SELECT author_id FROM book_author WHERE book_isbn = " .$row['isbn']. "");
-								  				$author_id_arr = array();
-								  				while($author_row = mysqli_fetch_array($author_id_res)){
-							  						array_push($author_id_arr,$author_row['author_id']);
-
-								  				}
-								  				
-								  				$ids = join(',',$author_id_arr);  	
-								  				$authors = mysqli_query($con,"SELECT first_name,last_name FROM author WHERE id IN ($ids)");
-								  				while($author = mysqli_fetch_array($authors)){
-								  					echo $author['first_name'] ." ".$author['last_name']."<br/> ";
-								  				}
-
+								  				echo $author_first_name . " " . $author_last_name . "<br/> ";
 								  		?>
 								  	</td>
 								  	<td>
 								  		<?php 
-								  				$pub_res = mysqli_query($con,"SELECT name FROM publisher WHERE id = " .$row['publisher_id']. "");
-								  				$pub_row = mysqli_fetch_array($pub_res);
-								  				echo $pub_row['name']; 
+								  				echo $publisher_name; 
 								  		?>
 								  	</td>
-								  	<td>$<?php echo $row['price']; ?></td>
+								  	<td>$<?php echo $price; ?></td>
 								  	<td>
-								  		<?php echo '<img src="data:image/jpeg;base64,' . base64_encode( $row['coverpage'] ) . '" heigh="92" width="42"/>'; ?>
+								  		<?php echo '<img src="data:image/jpeg;base64,' . base64_encode( $coverpage) . '" heigh="92" width="42"/>'; ?>
 								  	</td>
-								  	<td><a href="review.php?isbn=<?php echo $row['isbn']?>">Review</a></td>
-								  	<td><a href="buy.php?isbn=<?php echo $row['isbn']?>">Buy</a></td>
+								  	<td><a href="review.php?isbn=<?php echo $isbn ?>">Review</a></td>
+								  	<td><a href="buy.php?isbn=<?php echo $isbn ?>">Buy</a></td>
 								  </tr>
-								<?php }
-							}
+								<?php } //end while
+								$stmt->close();
+							} //end if ($success_flag)
 							?>
     			
 					</table>
-	<?php } ?>
+	<?php } //end if($_POST)
+	?>
 		</div>
 
 
