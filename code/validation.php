@@ -58,11 +58,13 @@
 		}else if($email != ''){
 			//Input validation
 			$result = mysqli_query($con,"SELECT id FROM user WHERE email = '$email'");
-			if($result->num_rows == 1 ){	
+			if($result->num_rows == 1 ){
+				mysql_close($con);	
 				return true;
 			}else
 			{
 				//either there is no such email or we have suffered an sql injection and we have multiple results
+				mysql_close($con);
 				return false;
 			}
 		}else{
