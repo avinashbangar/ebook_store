@@ -6,19 +6,20 @@
 		$lname = $_POST['lname'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
+		$passworBis = $_POST['password2'];
 
 		// $result = mysqli_query($con,"SELECT * FROM user WHERE email = '$email'");
-// 		if($result->num_rows == 1){
-// 			echo "You are already registered!";
+		// if($result->num_rows == 1){
+		// echo "You are already registered!";
 
 		$stmt = $con->prepare("select * from user where email =?");
 		$stmt->bind_param("s",$email);
 		$stmt->execute();
 		if($stmt->fetch())
 		{
-		echo "You are already registered";
+			alert('You are already registered');
 		}
-		else{
+		else if ($password == $passworBis){
 			 //create a prepared statement;
 +  			$stmt = $con->prepare("insert into user(first_name,last_name, email, password) values (?,?,?,?)");
 +    		//bind parameters for email and password;
@@ -30,6 +31,9 @@
 +       	header('Location:home.php');
  			$stmt->close();
 			}
+		else{
+			alert('Your passwords do not match. Please re-type them.');
+		}
 
 	}
 	
@@ -79,6 +83,15 @@
 					<tr>
 						<td>Password</td>
 						<td><input type="password" name="password" id="f4">
+							<script type="text/javascript">
+		         			var f4 = new LiveValidation('f4');
+		           			f4.add(Validate.Presence);
+		     				</script>
+						</td>
+					</tr>
+					<tr>
+						<td>Re-type the password</td>
+						<td><input type="password" name="password2" id="f4">
 							<script type="text/javascript">
 		         			var f4 = new LiveValidation('f4');
 		           			f4.add(Validate.Presence);

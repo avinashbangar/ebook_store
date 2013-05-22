@@ -70,7 +70,7 @@
 			</tr>
 			<tr>
 				<td>New password</td>
-				<td><input type="text" name="newPassword" id="f3">
+				<td><input type="password" name="newPassword" id="f3">
 					<script type="text/javascript">
 		         	var f1 = new LiveValidation('f1');
 		           	f1.add(Validate.Presence);
@@ -79,7 +79,7 @@
 			</tr>
 			<tr>
 				<td>Please reintroduce the new password</td>
-				<td><input type="text" name="newPassword2" id="f4">
+				<td><input type="password" name="newPassword2" id="f4">
 					<script type="text/javascript">
 		         	var f1 = new LiveValidation('f1');
 		           	f1.add(Validate.Presence);
