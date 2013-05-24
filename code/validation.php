@@ -29,6 +29,11 @@
 		}
 	}
 	
+	function ValidateNumber($input)
+	{
+		return preg_match('/[0-9]/', $input);
+	}
+	
 	function ValidateLength($input, $minimumLenght, $maximumLenght)
 	{
 		//validates that a string has at least $minimumLenght characters or more and $maximumLenght characters or less
