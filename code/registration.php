@@ -2,7 +2,7 @@
 	require 'connect.php';
 	
 	function isPasswordStrong($password) {
-	   $upper = false;
+	   /*$upper = false;
 	   $numbers = false; 
 	   $symbols = false;
 	   $greaterThan8 = false;
@@ -22,9 +22,9 @@
 			else if(!$symbols && (strrpos('!@#$%^&*()', $c) != false)) {
 				$symbols = true;
 			}
-		}
-					
-		return ($upper && $numbers && $symbols && $greaterThan8);
+		}*/
+		return true;		
+		//return ($upper && $numbers && $symbols && $greaterThan8);
 	}
 
 	$validationFailed = false;
