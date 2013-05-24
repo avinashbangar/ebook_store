@@ -4,47 +4,42 @@
 
 ?>
 <html>
-<head>
-	<title>Buy Ebook</title>
-</head>
 <body>
-	<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-<div align="center">	
-
 <?php
-	if($_POST){
-		
-		$user_id = $_SESSION['cuserid'];
-		$isbn = $_POST['isbn'];
-		//echo $user_id;
-		
-		$stmt = $con->prepare("INSERT INTO order (user_id,book_isbn) VALUES (?,?)");
-		$stmt->bind_param("ii",$user_id,$isbn);
-		//$stmt->execute();
-		//echo "Hi";
-		if($stmt->execute()){
-		echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
-		}
-		else{
-		echo "The book was not purchased, please try again!";}
-
-	// $result = mysqli_query($con,"insert into ebook_store.order (user_id, book_isbn)	values ('$user_id','$isbn')");
-// 		
-// 		if($result){
-// 			echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
-// 		}	
-// 		else{
-// 			die("Error ".mysqli_error($con));
-// 		}
-
-	}
-
+  $user_id = $_SESSION['cuserid'];
+  $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
+  if($result)
+  {?>
+    <table border="1">
+    <tr>
+        <td>Book</td>
+		<td>Price</td>
+    </tr>	
+    <?php	
+    if($result->num_rows>0)
+	{
+	  $sum = 0;
+	  while($row = mysqli_fetch_array($result))
+	  {
+	    $sum = $sum + $row['price'];?>
+		<tr>
+			<td><?php echo "".$row['title'];?></td>
+			<td><?php echo "".$row['price'];?></td>
+		</tr>		
+	<?php	
+	  }
+	  ?>
+		<tr>
+			<td><b>Total</b></td>
+			<td><b><?php echo "".$sum;?></b></td>
+		</tr></table></br></br>		  
+	  <?php
+	}	
+  }
 ?>
 
-
-	<form action="buy.php" method="POST">
-		<input type="hidden" name="isbn" value="<?php echo $_GET['isbn']; ?>">
+	<form action="" method="POST">
+		<input type="hidden" name="total" value="<?php echo $sum; ?>">
 		<table border="1">
 			<tr>
 				<td>Credit Card Details</td>
@@ -100,5 +95,8 @@
 	</form>
 
 </div>	
+
+</br></br>
+<a href="cart.php">Cancel</a>
 </body>
 </html>

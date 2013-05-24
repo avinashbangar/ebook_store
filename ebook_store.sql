@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `creditcard` (
 CREATE TABLE IF NOT EXISTS `order` (
   `user_id` int(11) NOT NULL,
   `book_isbn` int(11) NOT NULL,
+  `hash_Ticket` char(128) NOT NULL,
   KEY `user_id` (`user_id`,`book_isbn`),
   KEY `book_isbn` (`book_isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,6 +152,18 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   KEY `book_isbn` (`book_isbn`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE IF NOT EXISTS `cart` (
+  `user_id` varchar(255) NOT NULL,
+  `book_isbn` varchar(255) NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
 --

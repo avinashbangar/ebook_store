@@ -3,6 +3,30 @@
 	require 'connect.php';
 
 ?>
+
+<?php
+	if($_POST){
+		
+		$user_id = $_SESSION['cuserid'];
+		$isbn = $_POST['isbn'];
+		$review = $_POST['review'];
+		// Sanitizing user input to encode html special characters to avoid xss attacks 
+		$review = htmlspecialchars($review);
+		
+		$result = mysqli_query($con,"insert into ebook_store.reviews (user_id, book_isbn, review) values ('$user_id','$isbn','$review')");
+		
+		if($result){
+			//header("Location:review.php?isbn=$isbn");
+			echo("Review added successfully!");
+		}	
+		else{
+			die("Error ".mysqli_error($con));
+		}
+
+	}
+
+?>
+
 <html>
 <head>
 	<title>Buy Ebook</title>
@@ -12,28 +36,6 @@
 	<a href="home.php">Home</a>
 	<a href="logout.php">Logout</a>
 <div align="center">	
-
-<?php
-	if($_POST){
-		
-		$user_id = $_SESSION['cuserid'];
-		$isbn = $_POST['isbn'];
-		$review = $_POST['review'];
-		echo $isbn;
-		echo $user_id;
-		$result = mysqli_query($con,"insert into ebook_store.reviews (user_id, book_isbn, review) values ('$user_id','$isbn','$review')");
-		
-		if($result){
-			
-			header("Location:review.php?isbn=$isbn");
-		}	
-		else{
-			die("Error ".mysqli_error($con));
-		}
-
-	}
-
-?>
 
 
 	<form action="add_review.php" method="POST">

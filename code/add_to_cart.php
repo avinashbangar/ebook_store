@@ -23,7 +23,7 @@
      		echo "success";
      		*/
 
-     		$result = mysqli_query($con,"insert into ebook_store.cart (user_id, book_isbn, session_id) values ('$user_id','$isbn','$session_id')");
+     		$result = mysqli_query($con,"insert into cart (user_id, book_isbn, session_id) values ('$user_id','$isbn','$session_id')");
      		if(!$result){
      			echo "Error adding to cart!" .mysqli_error($con);
      		}	
