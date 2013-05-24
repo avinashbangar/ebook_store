@@ -1,31 +1,23 @@
 <?php 
 	require 'connect.php';
+	require 'validation.php';
 	
 	function isPasswordStrong($password) {
-	   $upper = false;
-	   $numbers = false; 
-	   $symbols = false;
+	   $upperAndNumber = false;
 	   $greaterThan8 = false;
 	   
 	   if(strlen($password) > 8) {
-	   	$greaterThan8 = true;
+	       $greaterThan8 = true;
 	   }
-			
-	   for($i = 0; $i < strlen($password); $i++) {
-			$c = $password[$i];
-			if(!$upper && (strrpos('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $c) != false)) {
-				$upper = true;
-			}
-			else if(!$numbers && (strrpos('0123456789', $c) != false)) {
-				$numbers = true;
-			}
-			else if(!$symbols && (strrpos('!@#$%^&*()', $c) != false)) {
-				$symbols = true;
-			}
+	    
+	   if(ValidateUpperletterAndNumber($password))
+	    {
+	    	$upperAndNumber = true;
+	    }
+						
+		return ($upperAndNumber && $greaterThan8);
 		}
-					
-		return ($upper && $numbers && $symbols && $greaterThan8);
-	}
+
 
 	$validationFailed = false;
 	$validationMsg = "";
