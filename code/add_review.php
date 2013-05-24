@@ -13,15 +13,12 @@
 		// Sanitizing user input to encode html special characters to avoid xss attacks 
 		$review = htmlspecialchars($review);
 		
-		$result = mysqli_query($con,"insert into ebook_store.reviews (user_id, book_isbn, review) values ('$user_id','$isbn','$review')");
-		
-		if($result){
-			//header("Location:review.php?isbn=$isbn");
-			echo("Review added successfully!");
-		}	
+		$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
+		$stmt->bind_param("sss",$user_id,$isbn,$review);
+		if($stmt->execute()){
+		echo "Review added successfully!";}
 		else{
-			die("Error ".mysqli_error($con));
-		}
+		echo "The review for the book was not added, please try again";}
 
 	}
 
