@@ -34,7 +34,7 @@
 		<?php } ?>
 		
 		</table>
-		<a href="buy1.php">Checkout</a>
+		<a href="revalidate_login.php">Checkout</a>
 		<?php	
 		}
 			else 
