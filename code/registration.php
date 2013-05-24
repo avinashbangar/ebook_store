@@ -37,9 +37,12 @@
 		$password = $_POST['password'];
 		$passworBis = $_POST['password2'];
 
-		// $result = mysqli_query($con,"SELECT * FROM user WHERE email = '$email'");
-		// if($result->num_rows == 1){
-		// echo "You are already registered!";
+		// Sanitizing user inputs to encode html special characters to avoid xss attacks 
+		$fname = htmlspecialchars($fname);
+		$lname = htmlspecialchars($lname);
+		$email = htmlspecialchars($email);
+		$password = htmlspecialchars($password);
+		$passworBis = htmlspecialchars($passworBis);
 
 		$stmt = $con->prepare("select * from user where email =?");
 		$stmt->bind_param("s",$email);
