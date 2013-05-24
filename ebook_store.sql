@@ -155,6 +155,18 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE IF NOT EXISTS `cart` (
+  `user_id` varchar(255) NOT NULL,
+  `book_isbn` varchar(255) NOT NULL,
+  `session_id` varchar(255) NOT NULL,
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+--
 -- Constraints for dumped tables
 --
 
