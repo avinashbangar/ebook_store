@@ -21,6 +21,12 @@ body
  	margin-left:150px!important;
 }
 
+.errorContent
+{
+	margin-left:150px;
+	color:#D80000;
+}
+
 .title
 {
 	font-size: 120%;
