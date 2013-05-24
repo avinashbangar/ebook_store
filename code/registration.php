@@ -27,6 +27,9 @@
 		return ($upper && $numbers && $symbols && $greaterThan8);
 	}
 
+	$validationFailed = false;
+	$validationMsg = "";
+	
 	if($_POST){
 		$fname = $_POST['fname'];
 		$lname = $_POST['lname'];
@@ -43,7 +46,8 @@
 		$stmt->execute();
 		if($stmt->fetch())
 		{
-			printf('You are already registered');
+			$validationFailed = true;
+			$validationMsg = 'You are already registered';
 		}
 		else if ($password == $passworBis){
 			if(isPasswordStrong($password))
@@ -61,13 +65,15 @@
  			}
  			else 
  			{
- 				echo('Password not strong enough: Please ensure that the password is atleast 8 characters long 
+ 				$validationFailed = true;
+ 				$validationMsg = 'Password not strong enough: Please ensure that the password is atleast 8 characters long 
  						and has an upper case, a number and one of these special characters:
- 						!@#$%^&*()');
+ 						!@#$%^&*()';
  			}
 		}
 		else{
-			printf('Your passwords do not match. Please re-type them.');
+			$validationFailed = true;
+			$validationMsg = 'Your passwords do not match. Please re-type them.';
 		}
 
 	}
@@ -81,7 +87,13 @@
 </head>
 <body>
 		<div class="content">				
-			<a href="index.php" class="title">Login</a>
+			<a href="index.php" class="title">Login</a>	
+			
+<?php
+	if($validationFailed) {
+		echo '<div class="errorContent">' .  $validationMsg . '</div>';
+	}
+?>
 			<form action="registration.php" method="POST" class="form">
 				<table>
 					<tr>

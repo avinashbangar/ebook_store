@@ -19,15 +19,15 @@
 		$isbn = $_POST['isbn'];
 		//echo $user_id;
 		
-		$stmt = $con->prepare("insert into ebook_store.order(user_id,book_isbn) values (?,?)");
-		$stmt->bind_param("ss",$user_id,$isbn);
+		$stmt = $con->prepare("INSERT INTO order (user_id,book_isbn) VALUES (?,?)");
+		$stmt->bind_param("ii",$user_id,$isbn);
 		//$stmt->execute();
 		//echo "Hi";
 		if($stmt->execute()){
 		echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
 		}
 		else{
-		echo "The book was not purchased, please try agian!";}
+		echo "The book was not purchased, please try again!";}
 
 	// $result = mysqli_query($con,"insert into ebook_store.order (user_id, book_isbn)	values ('$user_id','$isbn')");
 // 		

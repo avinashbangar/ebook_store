@@ -1,6 +1,6 @@
 <?php
 // Create connection
-$con=mysqli_connect("localhost","root","avi6186","ebook_store");
+$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
 
 // Check connection
 if (mysqli_connect_errno($con))
