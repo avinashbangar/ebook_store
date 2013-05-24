@@ -6,37 +6,51 @@
 	if($_GET){
 
 		$isbn = $_GET['isbn'];
+		$ticket = $_GET['ticket'];
 		
-		if (ValidateNumber($isbn) && ($stmt = $con->prepare("SELECT title,ebook FROM book WHERE isbn = ?")))
-		{
-			//bind parameter for isbn
-			$stmt->bind_param("i", $isbn);
-			
-			//execute the query
-			if(false == $stmt->execute()) {
-				printf("");
-			}
-			else {
-				 //bind result variable
-				 $stmt->bind_result($title, $ebook);
-						  
-				 if($stmt->fetch()) 
-				 {
-					header("Content-type: application/pdf");
-					header("Content-Disposition: attachment; filename=".$title);
-					header("Content-Description: PHP Generated Data");
-					echo $ebook;
-				 } 
-				 else{
-					printf("No rows found! \n");
-					printf("Incorrect email/password");
+		$hashedValue = GenerateHashedString($ticket);
+		
+			if (ValidateNumber($isbn))
+			{
+				$stmt = $con->prepare("SELECT title,ebook 
+							   FROM book INNER JOIN order ON book.isbn = order.book_isbn 
+							   WHERE book.isbn=? AND order.hash_Ticket=?");
+				$stmt->bind_param("ss",$isbn,$hashedValue);
+				if(!$stmt->execute()){
+					if ($stmt->num_rows == 1)
+					{
+						$stmt->bind_result($title, $ebook);
+						while(mysqli_stmt_fetch($stmt))
+						{
+							header("Content-type: application/pdf");
+				  			header("Content-Disposition: attachment; filename=".$title."");
+				  			header("Content-Description: PHP Generated Data");
+				  			echo $ebook;
+				  			/*
+				  			header("Content-type: image/jpg");
+				  			header("Content-Disposition: attachment; filename=".$row['title']."");
+				  			header("Content-Description: PHP Generated Data");
+				  			echo $row['coverpage'];
+				  			*/
+				  			
+				  			//After the user downloads the book, I delete the order so they cannot download it again
+				  			$stmt = $con->prepare("Delete * 
+									   			   FROM order
+									   				WHERE book_isbn=? AND order.hash_Ticket=?");
+							$stmt->bind_param("ss",$isbn,$hashedValue);
+							$stmt->execute();
+				  		}
+					}else{
+						alert('too many rows obtained');
+					}
+				}else{
+					alert('sql error');
 				}
-				$stmt->close();
-		   }
+			}
+			else{
+				echo("Unable to download book! Invalid isbn! ");
+			}
 		}
-		else{
-			echo("Unable to download book! Invalid isbn! ");
-		}
-	}
+
 
 ?>
