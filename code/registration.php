@@ -3,12 +3,14 @@
 	require 'validation.php';
 	
 	function isPasswordStrong($password) {
+	
 	   $upperAndNumber = false;
 	   $greaterThan8 = false;
 	   
 	   if(strlen($password) > 8) {
 	       $greaterThan8 = true;
 	   }
+	   
 	    
 	   if(ValidateUpperletterAndNumber($password))
 	    {
@@ -16,7 +18,7 @@
 	    }
 						
 		return ($upperAndNumber && $greaterThan8);
-		}
+	}
 
 
 	$validationFailed = false;

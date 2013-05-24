@@ -1,5 +1,4 @@
  <?php
-	require 'session.php';
 	require 'connect.php';
 	
  	function GenerateRandomString()
@@ -90,8 +89,6 @@
 		$mail->Subject  = "First PHPMailer Message";
 		
 		////////////////          UPDATE ADDRESS!!!   //////////////////
-		
-		
 		$mail->Body     = "Hi! \n\n This is your validation string to reset your password: ".$ticket.".\n\n You can reset your password with this ticket in the address http://www.scu-ecommerce.dx.am/PasswordReset.php";
 		$mail->WordWrap = 50;  
 		 
