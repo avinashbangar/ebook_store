@@ -19,6 +19,7 @@
 
 				<p class="paragraph_Center"><b>Ebooks List</b></p>
 				<p><a href="search.php" class="paragraph">Search</a>
+				<p><a href="topdownloads.php" class="paragraph">Top Downloads</a>
 				<p><a href="cart.php" class="paragraph">My Cart</a>
 				    <table border="1" class="form">
 				    	<tr>
@@ -69,7 +70,7 @@
 							  	</td>
 							  	<td><a href="review.php?isbn=<?php echo $row['isbn']?>">Reviews</a></td>
 							  	<td><a href="buy.php?isbn=<?php echo $row['isbn']?>">Buy</a></td>
-							  	<td><a href="add_to_cart.php?isbn=<?php echo $row['isbn']?>">Add to cart</a></td>
+								<td><a href="add_to_cart.php?isbn=<?php echo $row['isbn']?>">Add to cart</a></td>
 							  </tr>
 						<?php }?>
     			
