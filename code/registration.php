@@ -1,5 +1,31 @@
 <?php 
 	require 'connect.php';
+	
+	function isPasswordStrong($password) {
+	   $upper = false;
+	   $numbers = false; 
+	   $symbols = false;
+	   $greaterThan8 = false;
+	   
+	   if(strlen($password) > 8) {
+	   	$greaterThan8 = true;
+	   }
+			
+	   for($i = 0; $i < strlen($password); $i++) {
+			$c = $password[$i];
+			if(!$upper && (strrpos('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $c) != false)) {
+				$upper = true;
+			}
+			else if(!$numbers && (strrpos('0123456789', $c) != false)) {
+				$numbers = true;
+			}
+			else if(!$symbols && (strrpos('!@#$%^&*()', $c) != false)) {
+				$symbols = true;
+			}
+		}
+					
+		return ($upper && $numbers && $symbols && $greaterThan8);
+	}
 
 	if($_POST){
 		$fname = $_POST['fname'];
@@ -17,22 +43,31 @@
 		$stmt->execute();
 		if($stmt->fetch())
 		{
-			alert('You are already registered');
+			printf('You are already registered');
 		}
 		else if ($password == $passworBis){
-			 //create a prepared statement;
-+  			$stmt = $con->prepare("insert into user(first_name,last_name, email, password) values (?,?,?,?)");
-+    		//bind parameters for email and password;
+			if(isPasswordStrong($password))
+			{
+				 //create a prepared statement;
+  				$stmt = $con->prepare("insert into user(first_name,last_name, email, password) values (?,?,?,?)");
+    			//bind parameters for email and password;
 
-+    		$stmt->bind_param("ssss", $fname, $lname, $email, $password);
-+    
-+    		//execute the query;
-+     		$stmt->execute(); 
-+       	header('Location:home.php');
- 			$stmt->close();
-			}
+    			$stmt->bind_param("ssss", $fname, $lname, $email, $password);
+    
+    			//execute the query;
+     			$stmt->execute(); 
+	       		header('Location:home.php');
+ 				$stmt->close();
+ 			}
+ 			else 
+ 			{
+ 				echo('Password not strong enough: Please ensure that the password is atleast 8 characters long 
+ 						and has an upper case, a number and one of these special characters:
+ 						!@#$%^&*()');
+ 			}
+		}
 		else{
-			alert('Your passwords do not match. Please re-type them.');
+			printf('Your passwords do not match. Please re-type them.');
 		}
 
 	}
