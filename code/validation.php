@@ -1,4 +1,5 @@
 <?php 
+	require 'connect.php';
 	function ValidateSpecialCharacters($input)
 	{
 		//prevents SQL injections by prohibiting certain strings on the input
@@ -55,7 +56,7 @@
 	{
 		// returns true if the email exists in our database, false otherwise
 		// Create connection
-		$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
+		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
 		// Check connection
 		if (mysqli_connect_errno($con))
 		{
