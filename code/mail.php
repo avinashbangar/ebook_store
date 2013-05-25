@@ -78,7 +78,7 @@
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
 		$mail->CharSet="UTF-8";
-		$mail->Mailer = "smtp";
+		$mail->SMTPSecure = 'tls';
 		$mail->Host = 'smtp.gmail.com';
 		$mail->SMTPDebug  = 2;
 		$mail->SMTPSecure = 'tls';
