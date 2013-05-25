@@ -1,6 +1,7 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
+	require 'mail.php';
 
 ?>
 <html>
@@ -19,11 +20,12 @@
 		
 		$user_id = $_SESSION['cuserid'];
 		$isbn = $_POST['isbn'];
+		$ticket = GenerateRandomString();
 		
-		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn) VALUES (?,?)");
-		$stmt->bind_param("ii", $user_id, $isbn);
+		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
+		$stmt->bind_param("iis",$user_id,$isbn,GenerateHashedString($ticket));
 		if($stmt->execute()){
-			echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
+			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
 		}
 		else{
 			echo "The book was not purchased, please try again!";
