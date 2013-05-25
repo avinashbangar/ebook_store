@@ -68,6 +68,7 @@
 	}
 	
 	
+	
  	function sendMail($address)
 	{
 		$ticket = GenerateRandomString();
@@ -77,9 +78,12 @@
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
 		$mail->Mailer = "smtp";
-		$mail->Host = "ssl://smtp.gmail.com";
-		$mail->SMTPSecure = "ssl";
-		$mail->Port = 465;
+		$mail->CharSet="UTF-8";
+		$mail->SMTPSecure = 'tls';
+		$mail->Host = 'smtp.gmail.com';
+		$mail->SMTPDebug  = 2;
+		$mail->SMTPSecure = 'tls';
+		$mail->Port = 587;
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
 		$mail->Password = "fltqyjjkquqjtmpk"; // SMTP password 

@@ -1,4 +1,5 @@
 <?php 
+	require 'connect.php';
 	function ValidateSpecialCharacters($input)
 	{
 		//prevents SQL injections by prohibiting certain strings on the input
