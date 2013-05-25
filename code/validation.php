@@ -55,7 +55,7 @@
 	{
 		// returns true if the email exists in our database, false otherwise
 		// Create connection
-		$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
+		/*$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
 		// Check connection
 		if (mysqli_connect_errno($con))
 		{
@@ -74,6 +74,7 @@
 			}
 		}else{
 			return false;
-		}
+		}*/
+		return true;
 	}
 ?>

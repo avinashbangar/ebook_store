@@ -1,7 +1,7 @@
 <?php
 // Create connection
-
-$con=mysqli_connect("localhost","root","","ieproject");
+//
+$con=mysqli_connect("localhost","root","avi6186","ebook_store");
 
 // Check connection
 if (mysqli_connect_errno($con))

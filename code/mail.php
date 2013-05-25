@@ -82,7 +82,7 @@
 		$mail->Port = 465;
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
-		$mail->Password = "Tracasa06"; // SMTP password 
+		$mail->Password = "fltqyjjkquqjtmpk"; // SMTP password 
 		$mail->From     = "lareostia@gmail.com";
 		$mail->AddAddress($address);  
 		 

@@ -2,7 +2,6 @@
 	require 'session.php';
 	require 'connect.php';
 
-
 ?>
 	<a href="home.php">Home</a>
 	<p>My cart</p>
