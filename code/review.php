@@ -7,11 +7,12 @@
 <html>
 <head>
 	<title>Buy Ebook</title>
+	<link href="Styles/review.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-	<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-<div align="center">	
+<body class="body">
+	<p><a class="paragraph" href="home.php">Home</a></p>
+	<p><a class="paragraph" href="logout.php">Logout</a></p>
+<div class="content">	
 
 <?php
 
@@ -31,7 +32,7 @@
 	}
 
 ?>
-	<a href="add_review.php?isbn=<?php echo $_GET['isbn']?>">Add Review</a>
+	<p><a href="add_review.php?isbn=<?php echo $_GET['isbn']?>">Add Review</a></p>
 	<table border="1">
 			<tr>
 				<td>Title</td>
