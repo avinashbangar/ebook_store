@@ -1,14 +1,14 @@
-/*-------------------------------- Styles for index.php --------------------------------*/
+/*-------------------------------- Styles for add_review.php --------------------------------*/
 /*--------------------------------------------------------------------------------------*/
 
 body   
 {
-	background-image:url('images/books.jpg');
+	background-image:url('images/book2.jpg');
     font-size: .80em;
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     color: black;
-    margin-right:500px;
-    margin-left:100px;
+    margin-right:400px;
+    margin-left:50px;
     margin-top: 100px;
 }
 
@@ -19,13 +19,7 @@ body
 	border-radius:5px;
 	background-color:white;
  	margin-left:50px!important;
- 	min-width:500px;
-}
-
-.errorContent
-{
-	margin-left:50px;
-	color:#D80000;
+    min-width:200px;
 }
 
 .title
@@ -42,19 +36,15 @@ body
 	margin-left:50px;
 }
 
+.paragraph_Center
+{
+	margin-left:300px;
+}
 .form
 {
 	display:block;
 	margin-left:50px;
 }
 
-.table
-{
-	display:block;
-	border-style:solid;
-	border-width:5px;
-	max-width:400px;
-}
-
-/*------------------------------------ Styles for home.php ---------------------------------------*/
+/*------------------------------------ Styles for add_review.php ---------------------------------------*/
 /*-------------------------------------------------------------------------------------------------*/

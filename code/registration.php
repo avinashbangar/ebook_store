@@ -10,8 +10,6 @@
 	   if(strlen($password) > 8) {
 	       $greaterThan8 = true;
 	   }
-	   
-	    
 	   if(ValidateUpperletterAndNumber($password))
 	    {
 	    	$upperAndNumber = true;
@@ -85,12 +83,11 @@
 <body>
 		<div class="content">				
 			<a href="index.php" class="title">Login</a>	
-			
-<?php
-	if($validationFailed) {
-		echo '<div class="errorContent">' .  $validationMsg . '</div>';
-	}
-?>
+			<?php
+				if($validationFailed) {
+					echo '<div class="errorContent">' .  $validationMsg . '</div>';
+				}
+			?>
 			<form action="registration.php" method="POST" class="form">
 				<table>
 					<tr>
