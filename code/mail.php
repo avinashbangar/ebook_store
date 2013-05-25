@@ -77,6 +77,7 @@
 		require("./phpMailer/class.phpmailer.php"); // path to the PHPMailer class
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
+		$mail->Mailer = "smtp";
 		$mail->CharSet="UTF-8";
 		$mail->SMTPSecure = 'tls';
 		$mail->Host = 'smtp.gmail.com';
