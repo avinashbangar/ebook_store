@@ -5,10 +5,17 @@
 
 	$isbn = $_GET['isbn'];
 	
-	$result = mysqli_query($con,"SELECT * FROM cart WHERE book_isbn = ".$isbn." AND user_id = ".$_SESSION['cuserid']);
-	if($result){
-	  if($result->num_rows >= 1){
-		if(mysqli_query($con,"DELETE FROM cart WHERE book_isbn = ".$isbn." AND user_id = ".$_SESSION['cuserid']))
-		   header('location: cart.php');
-	  }
-	}
+
+	$stmt=$con->prepare("select * from cart where book_isbn=? and user_id=?");
+	$stmt->bind_param("ss",$isbn,$_SESSION['cuserid']);
+	if($stmt->execute()){
+	$row=$stmt->fetch();
+	if($row>=1){
+	$stmt->close();
+	$stmt1=$con->prepare("delete from cart where book_isbn=? and user_id=?");
+	$stmt1->bind_param("ss",$isbn, $_SESSION['cuserid']);
+	if($stmt1->execute()){
+	  header('location: cart.php');
+	  }}
+	  $stmt1->close();}
+    ?>
