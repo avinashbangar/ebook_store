@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 require 'connect.php';
 
 if ($_POST)
@@ -8,8 +8,9 @@ if ($_POST)
 	$pass = $_POST['password'];
 	//create a prepared statement
 	if ($stmt = $con->prepare("SELECT id FROM user WHERE email=? and password=?")) {
-		//bind parameters for email and password
-		$stmt->bind_param("ss", $email, $pass);
+		//bind parameters for email and password. bind password after encryption
+		$encryptedPassword = hash('sha512', $pass);
+		$stmt->bind_param("ss", $email, $encryptedPassword);
 		
 		//execute the query
 		 if(false == $stmt->execute()) {

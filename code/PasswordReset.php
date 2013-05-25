@@ -23,7 +23,8 @@
 				if(CheckTicket($email,$resetTicket))
 				{
 					//After the ticket has been verified we update the password on the given user.
-					$hashedValue = GenerateHashedString($newPassword);
+					//$hashedValue = GenerateHashedString($newPassword);
+					$hashedValue = hash('sha512', $newPassword);
 					UpdatePassword($hashedValue, $email);
 				}
 				else {

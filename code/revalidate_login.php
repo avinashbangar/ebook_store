@@ -2,7 +2,6 @@
 	require 'session.php';
 	require 'connect.php';
 	
-	
 if ($_POST)
 {
 	$email = $_POST['email'];
@@ -12,8 +11,9 @@ if ($_POST)
 
 	//create a prepared statement
 	if ($stmt = $con->prepare("SELECT id FROM user WHERE email=? and password=?")) {
-		//bind parameters for email and password
-		$stmt->bind_param("ss", $email, $pass);
+		//bind parameters for email and password. bind password after encryption
+		$encryptedPassword = hash('sha512', $pass);
+		$stmt->bind_param("ss", $email, $encryptedPassword);		
 		
 		//execute the query
 		 if(false == $stmt->execute()) {
@@ -56,7 +56,7 @@ if ($_POST)
 			echo "<p class='title'>Welcome ".$_SESSION['cuser']."!</p>";
 			echo"<p>Please provide your password again for re-validation.</p>";
 			// echo "<p class='title'>".$_GET['isbn']."</p>";
-			 echo $_GET['isbn']; echo "Hi";
+			 echo $_GET['isbn'];
 		?>
 		<form action="revalidate_login.php" method="POST" class="form">
 				<table class="table">

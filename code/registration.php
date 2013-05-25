@@ -1,21 +1,25 @@
 <?php 
 	require 'connect.php';
-	require 'validation.php';
 	
 	function isPasswordStrong($password) {
 	
 	   $upperAndNumber = false;
 	   $greaterThan8 = false;
+	   $symbols = false;
 	   
 	   if(strlen($password) > 8) {
 	       $greaterThan8 = true;
 	   }
-	   if(ValidateUpperletterAndNumber($password))
-	    {
+	   
+	   if((preg_match('/[A-Z]/', $password)) && (preg_match('/[0-9]/', $password)))
+	   {
 	    	$upperAndNumber = true;
-	    }
+	   }
+	   if(preg_match('/[!@#$%^&*()]/', $password)) {
+        	$symbols = true;
+      }
 						
-		return ($upperAndNumber && $greaterThan8);
+	   return ($upperAndNumber && $greaterThan8 && $symbols);
 	}
 
 
@@ -33,8 +37,8 @@
 		$fname = htmlspecialchars($fname);
 		$lname = htmlspecialchars($lname);
 		$email = htmlspecialchars($email);
-		$password = htmlspecialchars($password);
-		$passworBis = htmlspecialchars($passworBis);
+		$password = $password;
+		$passworBis = $passworBis;
 
 		$stmt = $con->prepare("select * from user where email =?");
 		$stmt->bind_param("s",$email);
@@ -50,8 +54,10 @@
 				 //create a prepared statement;
   				$stmt = $con->prepare("insert into user(first_name,last_name, email, password) values (?,?,?,?)");
     			//bind parameters for email and password;
-
-    			$stmt->bind_param("ssss", $fname, $lname, $email, $password);
+				
+				//bind input parameters. bind password after encryption
+				$encryptedPassword = hash('sha512', $password);
+    			$stmt->bind_param("ssss", $fname, $lname, $email, $encryptedPassword);
     
     			//execute the query;
      			$stmt->execute(); 
