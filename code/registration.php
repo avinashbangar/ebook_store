@@ -10,33 +10,12 @@
 	   if(strlen($password) > 8) {
 	       $greaterThan8 = true;
 	   }
-<<<<<<< HEAD
-			
-	   for($i = 0; $i < strlen($password); $i++) {
-			$c = $password[$i];
-			if(!$upper && (strrpos('ABCDEFGHIJKLMNOPQRSTUVWXYZ', $c) != false)) {
-				$upper = true;
-			}
-			else if(!$numbers && (strrpos('0123456789', $c) != false)) {
-				$numbers = true;
-			}
-			else if(!$symbols && (strrpos('!@#$%^&*()', $c) != false)) {
-				$symbols = true;
-			}
-		}
-					
-		return ($upper && $numbers && $symbols && $greaterThan8);*/
-		return true;
-=======
-	   
-	    
 	   if(ValidateUpperletterAndNumber($password))
 	    {
 	    	$upperAndNumber = true;
 	    }
 						
 		return ($upperAndNumber && $greaterThan8);
->>>>>>> e962c408e718297c5feabd17cdbd9f7dc587fae3
 	}
 
 
