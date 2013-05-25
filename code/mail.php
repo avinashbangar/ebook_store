@@ -68,6 +68,7 @@
 	}
 	
 	
+	
  	function sendMail($address)
 	{
 		$ticket = GenerateRandomString();
@@ -76,15 +77,17 @@
 		require("./phpMailer/class.phpmailer.php"); // path to the PHPMailer class
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
+		$mail->CharSet="UTF-8";
 		$mail->Mailer = "smtp";
-		$mail->Host = "ssl://smtp.gmail.com";
-		$mail->SMTPSecure = "ssl";
-		$mail->Port = 465;
+		$mail->Host = 'smtp.gmail.com';
+		$mail->SMTPDebug  = 2;
+		$mail->SMTPSecure = 'tls';
+		$mail->Port = 587;
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
 		$mail->Password = "Tracasa06"; // SMTP password 
 		$mail->From     = "lareostia@gmail.com";
-		$mail->AddAddress($address);  
+		$mail->AddAddress('lareostia@gmail.com');  
 		 
 		$mail->Subject  = "First PHPMailer Message";
 		

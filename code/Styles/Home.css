@@ -18,7 +18,7 @@ body
 	border-width:3px;
 	border-radius:5px;
 	background-color:white;
- 	margin-left:150px!important;
+ 	margin-left:50px!important;
  	min-width:1000px;
 }
 
@@ -28,12 +28,12 @@ body
 	font-weight: bolder;
 	font-variant: small-caps;
 	text-decoration:underline;
-	margin-left:150px;
+	margin-left:50px;
 }
 
 .paragraph
 {
-	margin-left:150px;
+	margin-left:50px;
 }
 
 .paragraph_Center
@@ -43,7 +43,7 @@ body
 .form
 {
 	display:block;
-	margin-left:150px;
+	margin-left:50px;
 }
 
 /*------------------------------------ Styles for home.php ---------------------------------------*/

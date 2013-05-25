@@ -4,7 +4,10 @@
 
 ?>
 <html>
-<body>
+<head>
+	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="body">
 <?php
   $user_id = $_SESSION['cuserid'];
   $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
@@ -37,8 +40,8 @@
 	}	
   }
 ?>
-
-	<form action="" method="POST">
+<div class="content">
+	<form action="" method="POST" class="form">
 		<input type="hidden" name="total" value="<?php echo $sum; ?>">
 		<table border="1">
 			<tr>

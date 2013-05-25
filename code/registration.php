@@ -22,9 +22,10 @@
 			else if(!$symbols && (strrpos('!@#$%^&*()', $c) != false)) {
 				$symbols = true;
 			}
-		}*/
-		return true;		
-		//return ($upper && $numbers && $symbols && $greaterThan8);
+		}
+					
+		return ($upper && $numbers && $symbols && $greaterThan8);*/
+		return true;
 	}
 
 	$validationFailed = false;
@@ -91,12 +92,11 @@
 <body>
 		<div class="content">				
 			<a href="index.php" class="title">Login</a>	
-			
-<?php
-	if($validationFailed) {
-		echo '<div class="errorContent">' .  $validationMsg . '</div>';
-	}
-?>
+			<?php
+				if($validationFailed) {
+					echo '<div class="errorContent">' .  $validationMsg . '</div>';
+				}
+			?>
 			<form action="registration.php" method="POST" class="form">
 				<table>
 					<tr>
