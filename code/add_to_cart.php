@@ -16,7 +16,7 @@
 //echo $row;
 		if($row == 1){
 //if($result->num_rows == 1){
-			$session_id = 123;
+			$session_id = session_id();
 			$user_id = $_SESSION['cuserid'];
 			
 /*
