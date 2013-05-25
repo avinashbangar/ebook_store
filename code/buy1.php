@@ -13,7 +13,8 @@
   $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
   if($result)
   {?>
-    <table border="1">
+<div class="content">
+    <table border="1" class="table" style="max-width: 100px;margin-left: 50px;">
     <tr>
         <td>Book</td>
 		<td>Price</td>
@@ -40,10 +41,11 @@
 	}	
   }
 ?>
+</div>
 <div class="content">
 	<form action="" method="POST" class="form">
 		<input type="hidden" name="total" value="<?php echo $sum; ?>">
-		<table border="1">
+		<table border="1" class="table">
 			<tr>
 				<td>Credit Card Details</td>
 				<td></td>

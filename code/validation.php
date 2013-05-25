@@ -56,7 +56,7 @@
 	{
 		// returns true if the email exists in our database, false otherwise
 		// Create connection
-		/*$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
+		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
 		// Check connection
 		if (mysqli_connect_errno($con))
 		{
@@ -65,17 +65,15 @@
 			//Input validation
 			$result = mysqli_query($con,"SELECT id FROM user WHERE email = '$email'");
 			if($result->num_rows == 1 ){
-				mysql_close($con);	
 				return true;
 			}else
 			{
 				//either there is no such email or we have suffered an sql injection and we have multiple results
-				mysql_close($con);
 				return false;
 			}
 		}else{
 			return false;
-		}*/
+		}
 		return true;
 	}
 ?>
