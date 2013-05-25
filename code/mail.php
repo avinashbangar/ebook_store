@@ -88,7 +88,7 @@
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
 		$mail->Password = "Tracasa06"; // SMTP password 
 		$mail->From     = "lareostia@gmail.com";
-		$mail->AddAddress('lareostia@gmail.com');  
+		$mail->AddAddress($address);  
 		 
 		$mail->Subject  = "First PHPMailer Message";
 		
