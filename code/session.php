@@ -1,5 +1,5 @@
 <?php
-    require 'Cookies\cookies.php';
+    require 'Cookies/cookies.php';
 	include_once 'Utility.php';
 	require 'connect.php';
 	

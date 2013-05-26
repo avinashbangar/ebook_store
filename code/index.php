@@ -2,7 +2,7 @@
 session_start();
 require 'connect.php';
 include_once 'Utility.php';
-require 'Cookies\cookies.php';
+require 'Cookies/cookies.php';
 //require 'session.php'; 
 
 if ($_POST)
