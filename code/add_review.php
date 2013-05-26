@@ -6,22 +6,39 @@
 ?>
 
 <?php
-	if($_POST){
-		
-		$user_id = $_SESSION['cuserid'];
-		$isbn = $_POST['isbn'];
-		$review = $_POST['review'];
-		// Sanitizing user input to encode html special characters to avoid xss attacks 
-		$review = htmlspecialchars($review);
-		//if(ValidateSpecialCharacters($review)){
-		$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
-		$stmt->bind_param("sss",$user_id,$isbn,$review);
-		if($stmt->execute()){
-		echo "Review added successfully!";}
-		else{
-		echo "The review for the book was not added, please try again";}
-//}
+if($_POST){
+	$session = GenerateHashedString($_SESSION['id']);
+	//echo "SESSION['id']:" . $_SESSION['id'] . "session:" . $session . "<BR>";
+	$str = "select user_id from session where id = '$session'";
+	if($result = $con->query($str)) {
+		if($row = $result->fetch_row()) {
+			$isbn = $_POST['isbn'];
+			//echo "isbn" . $isbn . "<BR>";
+			$review = $_POST['review'];
+			//echo "review:". $review . "<BR>";
+			$user_id = $row[0];
+			//echo "user_id:" . $user_id . "<BR>";
+			// Sanitizing user input to encode html special characters to avoid xss attacks 
+			$review = htmlspecialchars($review);
+			$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
+			$stmt->bind_param("sss",$user_id,$isbn,$review);
+			if($stmt->execute()){
+				//echo "Review added successfully!";
+			}
+			else{
+				echo "The review for the book was not added, please try again";
+				//echo mysqli_error($con);
+			}
+		}
+		else {
+			echo "You need to be logged in to add reviews";
+		}
 	}
+	else {
+		echo "The review for the book was not added, please try again";
+		echo mysqli_error($con);
+	}
+}
 
 ?>
 
