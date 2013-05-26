@@ -34,8 +34,8 @@
 				  		}
 						//we delete the permissions for that file
 						$stmt->close();
-						$stmt = $con->prepare("Delete * 
-									   		  FROM order
+						$stmt = $con->prepare("Delete
+									   		  FROM `order`
 									   		  WHERE book_isbn=? AND order.hash_Ticket=?");
 						$stmt->bind_param("is",$isbn,$hashedValue);
 						if (!$stmt->execute())
