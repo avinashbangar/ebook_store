@@ -46,17 +46,17 @@ if ($_POST)
 <html>
 <head>
 	<title>Re-login page!</title>
-	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
+	<link href="Styles/Revalidate_login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-	<div class="body">	
+<p><a class="paragraph" href="home.php">Home</a></p>
+	<p><a class="paragraph" href="logout.php">Logout</a></p>
+	<div class="content">	
 		<?php
 			echo "<p class='title'>Welcome ".$_SESSION['cuser']."!</p>";
-			echo"<p>Please provide your password again for re-validation.</p>";
+			echo"<p class='paragraph'>Please provide your password again for re-validation.</p>";
 			// echo "<p class='title'>".$_GET['isbn']."</p>";
-			 echo $_GET['isbn'];
+			// echo $_GET['isbn'];
 		?>
 		<form action="revalidate_login.php" method="POST" class="form">
 				<table class="table">
