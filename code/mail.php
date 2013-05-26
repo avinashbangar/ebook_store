@@ -1,8 +1,9 @@
  <?php
 	require 'session.php';
 	require 'connect.php';
+	require 'Utility.php';
 	
- 	function GenerateRandomString()
+/* 	function GenerateRandomString()
 	{
 		$length = 15;
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
@@ -19,7 +20,7 @@
 		
 		//this will return the generated key
 		return substr($hashed,30);
-	}
+	}*/
 	
 	function UpdatePassword($hashedValue, $address)
 	{

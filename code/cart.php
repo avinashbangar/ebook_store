@@ -1,7 +1,7 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
-
+	include_once 'Utility.php';
 
 ?>
 	<a href="home.php">Home</a>
@@ -9,8 +9,11 @@
 
 
 		<?php
-			$user_id = $_SESSION['cuserid'];
-			$result = mysqli_query($con,"SELECT title,isbn,coverpage FROM book where isbn in (select book_isbn from cart where user_id = $user_id)");
+			$session = GenerateHashedString($_SESSION['id']);
+			$res = mysqli_query($con,"Select user_id from session Where id = '$session'");
+			$user = mysqli_fetch_array($res);
+			$str = "SELECT title,isbn,coverpage FROM book where isbn in (select book_isbn from cart where user_id = ".$user['user_id'].")";
+			$result = mysqli_query($con,$str);
 			
 			if($result->num_rows>0)
 			{

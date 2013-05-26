@@ -1,6 +1,7 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
+	include_once 'Utility.php';
 
 
 	$isbn = $_GET['isbn'];
@@ -10,8 +11,10 @@
 	if($result){
 
 		if($result->num_rows == 1){
-			$session_id = 123;
-			$user_id = $_SESSION['cuserid'];
+			$session = GenerateHashedString($_SESSION['id']);
+			echo $session;
+			$userresult = mysqli_query($con,"SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')");
+			$user = mysqli_fetch_array($userresult);
 /*
 			$stmt = $con->prepare("insert into cart(user_id, book_isbn, session_id) values (?,?,?)");
 
@@ -23,7 +26,7 @@
      		echo "success";
      		*/
 
-     		$result = mysqli_query($con,"insert into cart (user_id, book_isbn, session_id) values ('$user_id','$isbn','$session_id')");
+     		$result = mysqli_query($con,"insert into cart (user_id, book_isbn, session_id) values (".$user['id'].",'$isbn','$session')");
      		if(!$result){
      			echo "Error adding to cart!" .mysqli_error($con);
      		}	
