@@ -168,6 +168,20 @@ CREATE TABLE IF NOT EXISTS `cart` (
 
 
 --
+-- Table structure for table `session`
+--
+
+CREATE TABLE IF NOT EXISTS `session` (
+  `id` varchar(255) NOT NULL,
+  `user_id` int(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `session`
+  ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+--
 -- Constraints for dumped tables
 --
 
