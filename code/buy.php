@@ -1,53 +1,45 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
+	require 'mail.php';
 
 ?>
 <html>
 <head>
 	<title>Buy Ebook</title>
+	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-	<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-<div align="center">	
-
-<?php
+<body class="body">
+<div class="content">	
+	<div style="max-width:400px;margin-top:25px;">
+		<a href="home.php" class="title">Home</a>
+		<a href="logout.php" class="title" style="float:right;margin-right:30px;">Logout</a>
+	</div>
+<?php 
 	if($_POST){
 		
 		$user_id = $_SESSION['cuserid'];
 		$isbn = $_POST['isbn'];
-		//echo $user_id;
+		$ticket = GenerateRandomString();
 		
-		$stmt = $con->prepare("INSERT INTO order (user_id,book_isbn) VALUES (?,?)");
-		$stmt->bind_param("ii",$user_id,$isbn);
-		//$stmt->execute();
-		//echo "Hi";
+		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
+		$stmt->bind_param("iis",$user_id,$isbn,hash('sha512',$ticket));
 		if($stmt->execute()){
-		echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
+			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
 		}
 		else{
-		echo "The book was not purchased, please try again!";}
-
-	// $result = mysqli_query($con,"insert into ebook_store.order (user_id, book_isbn)	values ('$user_id','$isbn')");
-// 		
-// 		if($result){
-// 			echo "<br/><a href='download.php?isbn=".$isbn."' target='_blank'>Download Ebook!</a>";
-// 		}	
-// 		else{
-// 			die("Error ".mysqli_error($con));
-// 		}
-
+			echo "The book was not purchased, please try again!";
+		}
 	}
 
 ?>
 
 
-	<form action="buy.php" method="POST">
+	<form action="buy.php" method="POST" class="form">
 		<input type="hidden" name="isbn" value="<?php echo $_GET['isbn']; ?>">
-		<table border="1">
+		<table border="1" class="table">
 			<tr>
-				<td>Credit Card Details</td>
+				<td class="Title">Credit Card Details</td>
 				<td></td>
 			</tr>
 			<tr>

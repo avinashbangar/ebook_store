@@ -7,58 +7,74 @@
 <html>
 <head>
 	<title>Buy Ebook</title>
+	<link href="Styles/review.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-	<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-<div align="center">	
+<body class="body">
+	<p><a class="paragraph" href="home.php">Home</a></p>
+	<p><a class="paragraph" href="logout.php">Logout</a></p>
+<div class="content">	
 
 <?php
 
 	if($_GET){
 		$user_id = $_SESSION['cuserid'];
 		$isbn = $_GET['isbn'];
-
-		$result = mysqli_query($con,"select title FROM book WHERE isbn = '$isbn' ");
 		
-		if($result){
-			$reviews = mysqli_query($con,"SELECT review FROM reviews WHERE book_isbn = '$isbn'");
-		}	
-		else{
-			die("Error ".mysqli_error($con));
+		
+		//create a prepared statement
+		if ($stmt = $con->prepare("Select title, review FROM book, reviews WHERE book.isbn = reviews.book_isbn AND
+								   book.isbn = ?")) {
+			//bind parameters for isbn
+			$stmt->bind_param("i", $isbn);
+			
+			//execute the query
+			 if(false == $stmt->execute()) {
+				printf("Unable to execute query");
+			 }
+			 else {
+				//bind result variable
+				$stmt->bind_result($title, $review);
+			}
 		}
-
+		else{
+			printf("Unable to display review(s)! \n");
+		}
 	}
 
 ?>
-	<a href="add_review.php?isbn=<?php echo $_GET['isbn']?>">Add Review</a>
+	<p><a href="add_review.php?isbn=<?php echo $_GET['isbn']?>">Add Review</a></p>
 	<table border="1">
 			<tr>
 				<td>Title</td>
-				<td><?php if($result){
-							while($rw = mysqli_fetch_array($result)){
-								echo $rw['title'];
-							}
-						}
+				<td>
+					<?php
+						$rowExists = false;
+						if($stmt->fetch()){
+								echo $title;
+								$rowExists = true;
+						  }
 					?>
 				</td>
 			</tr>
 			<tr>
-				<td>Review</td>
+				<td>Reviews</td>
 				<td></td>
 			</tr>
+			
 			<?php 
-				
-				if($reviews){
-					while($row = mysqli_fetch_array($reviews)){
-					?>
-					<tr>
-						<td></td>
-						<td><?php echo $row['review'];?></td>
-					</tr>
+				do {
+						if($rowExists) {
+			?>
+							<tr>
+								<td></td>
+								<td><?php echo $review;?></td>
+							</tr>
+						
 			<?php
-				   } 
-				}
+						}
+				   } while($stmt->fetch());
+
+				$stmt->close();
 			?>
 
 	</table>

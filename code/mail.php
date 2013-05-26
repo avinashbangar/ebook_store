@@ -1,5 +1,4 @@
  <?php
-	require 'session.php';
 	require 'connect.php';
 	require 'Utility.php';
 	
@@ -24,7 +23,7 @@
 	
 	function UpdatePassword($hashedValue, $address)
 	{
-		$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
+		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
 		$stmt = $con->prepare("UPDATE user SET password=?, pwd_timeStamp=CURRENT_TIMESTAMP() WHERE email=?");
 		//bind parameters for email and password
 		$stmt->bind_param("ss", $hashedValue, $address);
@@ -44,7 +43,7 @@
 	
 	function CheckTicket($email,$resetTicket)
 	{
-		$con=mysqli_connect("fdb5.awardspace.com","1387051_books","9pijohe2","1387051_books");
+		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
 		//This function will return true if the email exists in the database, the password assigned to that mail is
 		//the hash function of the ticket and that the ticket has not yet expired. It will return false otherwise.
 		$hashedValue = GenerateHashedString($resetTicket);
@@ -70,6 +69,7 @@
 	}
 	
 	
+	
  	function sendMail($address)
 	{
 		$ticket = GenerateRandomString();
@@ -79,20 +79,21 @@
 		$mail = new PHPMailer();  
 		$mail->IsSMTP();  // telling the class to use SMTP
 		$mail->Mailer = "smtp";
-		$mail->Host = "ssl://smtp.gmail.com";
-		$mail->SMTPSecure = "ssl";
-		$mail->Port = 465;
+		$mail->CharSet="UTF-8";
+		$mail->SMTPSecure = 'tls';
+		$mail->Host = 'smtp.gmail.com';
+		$mail->SMTPDebug  = 2;
+		$mail->SMTPSecure = 'tls';
+		$mail->Port = 587;
 		$mail->SMTPAuth = true; // turn on SMTP authentication
 		$mail->Username = "lareostia@gmail.com"; // SMTP username
-		$mail->Password = "Tracasa06"; // SMTP password 
+		$mail->Password = "fltqyjjkquqjtmpk"; // SMTP password 
 		$mail->From     = "lareostia@gmail.com";
 		$mail->AddAddress($address);  
 		 
 		$mail->Subject  = "First PHPMailer Message";
 		
 		////////////////          UPDATE ADDRESS!!!   //////////////////
-		
-		
 		$mail->Body     = "Hi! \n\n This is your validation string to reset your password: ".$ticket.".\n\n You can reset your password with this ticket in the address http://www.scu-ecommerce.dx.am/PasswordReset.php";
 		$mail->WordWrap = 50;  
 		 

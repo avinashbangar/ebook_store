@@ -1,6 +1,7 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
+	require 'validation.php';
 
 ?>
 
@@ -12,17 +13,14 @@
 		$review = $_POST['review'];
 		// Sanitizing user input to encode html special characters to avoid xss attacks 
 		$review = htmlspecialchars($review);
-		
-		$result = mysqli_query($con,"insert into ebook_store.reviews (user_id, book_isbn, review) values ('$user_id','$isbn','$review')");
-		
-		if($result){
-			//header("Location:review.php?isbn=$isbn");
-			echo("Review added successfully!");
-		}	
+		//if(ValidateSpecialCharacters($review)){
+		$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
+		$stmt->bind_param("sss",$user_id,$isbn,$review);
+		if($stmt->execute()){
+		echo "Review added successfully!";}
 		else{
-			die("Error ".mysqli_error($con));
-		}
-
+		echo "The review for the book was not added, please try again";}
+//}
 	}
 
 ?>
@@ -31,11 +29,12 @@
 <head>
 	<title>Buy Ebook</title>
 	<script type="text/javascript" src="livevalidation_standalone.compressed.js"></script>
+	<link href="Styles/add_review.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<a href="home.php">Home</a>
-	<a href="logout.php">Logout</a>
-<div align="center">	
+	<p><a class="paragraph" href="home.php">Home</a></p>
+	<p><a class="paragraph" href="logout.php">Logout</a></p>
+<div class="body">	
 
 
 	<form action="add_review.php" method="POST">

@@ -7,15 +7,23 @@
 	$isbn = $_GET['isbn'];
 	
 	$session = GenerateHashedString($_SESSION['id']);
-	echo $session;
+	//echo $session;
 	$userresult = mysqli_query($con,"SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')");
 	$user = mysqli_fetch_array($userresult);
 
-	$result = mysqli_query($con,"SELECT * FROM cart WHERE book_isbn = ".$isbn." AND user_id = ".$user['id']);
-	if($result){
-	  if($result->num_rows >= 1){
-		if(mysqli_query($con,"DELETE FROM cart WHERE book_isbn = ".$isbn." AND user_id = ".$user['id']))
-		   header('location: cart.php');
+
+
+	$stmt=$con->prepare("select * from cart where book_isbn=? and user_id=?");
+	$stmt->bind_param("ss",$isbn,$user['id']);
+	if($stmt->execute()){
+	$row=$stmt->fetch();
+	if($row>=1){
+	$stmt->close();
+	$stmt1=$con->prepare("delete from cart where book_isbn=? and user_id=?");
+	$stmt1->bind_param("ss",$isbn, $user['id']);
+	if($stmt1->execute()){
+	  header('location: cart.php');
 	  }
-	}
-	?>
+    $stmt1->close();}}
+
+?>

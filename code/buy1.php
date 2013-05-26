@@ -1,16 +1,21 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
+	require 'mail.php';
 
 ?>
 <html>
-<body>
+<head>
+	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="body">
 <?php
   $user_id = $_SESSION['cuserid'];
   $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
   if($result)
   {?>
-    <table border="1">
+<div class="content">
+    <table border="1" class="table" style="max-width: 100px;margin-left: 50px;">
     <tr>
         <td>Book</td>
 		<td>Price</td>
@@ -37,10 +42,11 @@
 	}	
   }
 ?>
-
-	<form action="" method="POST">
+</div>
+<div class="content">
+	<form action="" method="POST" class="form">
 		<input type="hidden" name="total" value="<?php echo $sum; ?>">
-		<table border="1">
+		<table border="1" class="table">
 			<tr>
 				<td>Credit Card Details</td>
 				<td></td>
@@ -95,7 +101,31 @@
 	</form>
 
 </div>	
+<?php 
+	if($_POST){
+		
+		$user_id = $_SESSION['cuserid'];
+  		$result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
+  		if($result->num_rows>0)
+		{
+			while($row = mysqli_fetch_array($result))
+	  		{
+				$isbn = $row['isbn'];
+				$ticket = GenerateRandomString();
+				
+				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
+				$stmt->bind_param("iis",$user_id,$isbn,hash('sha512',$ticket));
+				if($stmt->execute()){
+					echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download this book: ".$row['title']."</a>";
+				}
+				else{
+					echo "The book was not purchased, please try again!";
+				}
+			}
+		}
+	}
 
+?>
 </br></br>
 <a href="cart.php">Cancel</a>
 </body>

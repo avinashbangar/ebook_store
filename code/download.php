@@ -1,55 +1,51 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
-	require 'validation.php';
+	//require 'validation.php';
+	//require 'mail.php';
 
 	if($_GET){
 
 		$isbn = $_GET['isbn'];
 		$ticket = $_GET['ticket'];
 		
-		$hashedValue = GenerateHashedString($ticket);
-		
-			if (ValidateNumber($isbn))
-			{
+		$hashedValue = hash('sha512',$ticket);
 				$stmt = $con->prepare("SELECT title,ebook 
-							   FROM book INNER JOIN order ON book.isbn = order.book_isbn 
-							   WHERE book.isbn=? AND order.hash_Ticket=?");
-				$stmt->bind_param("ss",$isbn,$hashedValue);
-				if(!$stmt->execute()){
-					if ($stmt->num_rows == 1)
-					{
+							   FROM book INNER JOIN `order` ord ON book.isbn = ord.book_isbn 
+							   WHERE book.isbn=? AND ord.hash_Ticket=?");
+				$stmt->bind_param("is",$isbn,$hashedValue);
+				if($stmt->execute()){
 						$stmt->bind_result($title, $ebook);
 						while(mysqli_stmt_fetch($stmt))
 						{
 							header("Content-type: application/pdf");
 				  			header("Content-Disposition: attachment; filename=".$title."");
 				  			header("Content-Description: PHP Generated Data");
-				  			echo $ebook;
+							header('Content-Transfer-Encoding: binary');
+    						header('Expires: 0');
+    						header('Cache-Control: must-revalidate');
+  							header('Pragma: public');
+							header('Content-Length: ' . filesize($title));
+							echo $ebook;
+				  			//echo $ebook;
 				  			/*
 				  			header("Content-type: image/jpg");
 				  			header("Content-Disposition: attachment; filename=".$row['title']."");
 				  			header("Content-Description: PHP Generated Data");
 				  			echo $row['coverpage'];
 				  			*/
-				  			
-				  			//After the user downloads the book, I delete the order so they cannot download it again
-				  			$stmt = $con->prepare("Delete * 
-									   			   FROM order
-									   				WHERE book_isbn=? AND order.hash_Ticket=?");
-							$stmt->bind_param("ss",$isbn,$hashedValue);
-							$stmt->execute();
 				  		}
-					}else{
-						alert('too many rows obtained');
-					}
+						//we delete the permissions for that file
+						$stmt->close();
+						$stmt = $con->prepare("Delete
+									   		  FROM `order`
+									   		  WHERE book_isbn=? AND order.hash_Ticket=?");
+						$stmt->bind_param("is",$isbn,$hashedValue);
+						if (!$stmt->execute())
+							alert("error deleting");
 				}else{
 					alert('sql error');
 				}
-			}
-			else{
-				echo("Unable to download book! Invalid isbn! ");
-			}
 		}
 
 
