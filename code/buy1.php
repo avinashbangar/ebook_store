@@ -104,6 +104,7 @@
 <?php 
 	if($_POST){
 		
+		
 		$user_id = $_SESSION['cuserid'];
   		$result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
   		if($result->num_rows>0)
