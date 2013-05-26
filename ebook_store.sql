@@ -15,9 +15,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `ebook_store`
---
 
 -- --------------------------------------------------------
 
@@ -26,7 +23,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `admin` (
-'id' int not null auto_increment,
+`id` int not null auto_increment UNIQUE,
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   PRIMARY KEY (`username`)
