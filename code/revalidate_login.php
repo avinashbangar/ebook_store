@@ -83,3 +83,7 @@ if ($_POST)
 					</tr>
 				</table>
 				</form>
+				</div>
+				</body>
+				
+				</html>
