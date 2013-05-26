@@ -1,29 +1,23 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
+	include_once 'Utility.php';
 
 ?>
-<head>
-	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
-</head>
-<body class="body">
-	<div class="content">
-		<a href="home.php">Home</a>
-		<p>My cart</p>
-	
-	
-			<?php
-				$user_id = $_SESSION['cuserid'];
-				// $result = mysqli_query($con,"SELECT title,isbn,coverpage FROM book where isbn in (select book_isbn from cart where user_id = $user_id)");
-	// 			
-	// 			if($result->num_rows>0)
-	// 			{
-			$stmt=$con->prepare("select title, isbn, coverpage from book where isbn in (select book_isbn from cart where user_id=?)");
-			$stmt->bind_param("s",$user_id);
-			if($stmt->execute()){
-			$stmt->bind_result($title,$isbn,$coverpage);
-			echo $title;
+	<a href="home.php">Home</a>
+	<p>My cart</p>
+
+
+		<?php
+			$session = GenerateHashedString($_SESSION['id']);
+			$res = mysqli_query($con,"Select user_id from session Where id = '$session'");
+			$user = mysqli_fetch_array($res);
+			$str = "SELECT title,isbn,coverpage FROM book where isbn in (select book_isbn from cart where user_id = ".$user['user_id'].")";
+			$result = mysqli_query($con,$str);
 			
+			if($result->num_rows>0)
+			{
+
 			?>
 			<table border=1 class=Form>
 				<tr>
@@ -33,7 +27,7 @@
 				</tr>
 	
 			<?php	
-				  while(mysqli_stmt_fetch($stmt)){ 
+				  while($row = mysqli_fetch_array($result)){ 
 			?>
 					<tr>
 						<!-- 
@@ -41,9 +35,9 @@
 						<td><?php echo $row['title']; ?></td>
 						<td><a href="remove_cart.php?isbn=<?php echo $row['isbn']?>">Remove</a></td>
 	 -->
-	 <td><?php echo '<img src="data:image/jpeg;base64,' . base64_encode( $coverpage ) . '" heigh="92" width="42"/>'; ?></td>
-						<td><?php echo $title; ?></td>
-						<td><a href="remove_cart.php?isbn=<?php echo $isbn?>">Remove</a></td>
+	 <td><?php echo '<img src="data:image/jpeg;base64,' . base64_encode( $row['coverpage'] ) . '" heigh="92" width="42"/>'; ?></td>
+						<td><?php echo $row['title']; ?></td>
+						<td><a href="remove_cart.php?isbn=<?php echo $row['isbn']?>">Remove</a></td>
 					</tr>
 			<?php } ?>
 			

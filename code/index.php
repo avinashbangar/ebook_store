@@ -1,6 +1,9 @@
 <?php
 session_start();
 require 'connect.php';
+include_once 'Utility.php';
+require 'Cookies\cookies.php';
+//require 'session.php'; 
 
 if ($_POST)
 {
@@ -21,21 +24,33 @@ if ($_POST)
 			 $stmt->bind_result($id);
 					  
 			 if($stmt->fetch()) {
-				$_SESSION['cuser'] = $email;
-				$_SESSION['cuserid'] = $id;
-				header('Location:home.php');
-			 } 
+			    $stmt->close(); 
+			    $session_id = GenerateRandomString();
+				$session_id = $session_id.$_SERVER['REMOTE_ADDR'];
+				$_SESSION['id'] = $session_id;
+				
+				$hashed = GenerateHashedString($session_id);
+				$str = "insert into session(id,user_id) values('$hashed' , ".$id.")";
+				$result = mysqli_query($con,$str);
+			
+				if($result)
+				{
+					set_cookie(aes128ctr_en($session_id,'a4t14A20z',12345));
+					header('Location:home.php');
+				}	
+			} 
 			 else{
 				printf("No rows found! \n");
 				printf("Incorrect email/password");
 			}
-			$stmt->close();
 		}
 	}
 	else{
 		echo "Unable to validate login";
 	}
 }
+
+
 ?>
 <html>
 <head>

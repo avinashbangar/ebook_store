@@ -1,6 +1,7 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
+	include_once 'Utility.php';
 
 ?>
 <html>
@@ -13,7 +14,11 @@
 		<?php
 
 			$result = mysqli_query($con,"SELECT isbn,title,edition,publisher_id,price,coverpage FROM book");
-			echo "<p class='title'>Welcome ".$_SESSION['cuser']."!</p>";
+			$session = GenerateHashedString($_SESSION['id']);
+			$str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+			$userresult = mysqli_query($con,$str);
+			$user = mysqli_fetch_array($userresult);
+			echo "<p class='title'>Welcome ". $user['first_name'] ."!</p>";
 		?>
 		<a href="logout.php" class="paragraph">Logout</a>
 
