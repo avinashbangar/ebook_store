@@ -23,7 +23,7 @@
 		$ticket = GenerateRandomString();
 		
 		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
-		$stmt->bind_param("iis",$user_id,$isbn,GenerateHashedString($ticket));
+		$stmt->bind_param("iis",$user_id,$isbn,hash('sha512',$ticket));
 		if($stmt->execute()){
 			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
 		}

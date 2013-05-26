@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `publisher_id` int(50) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `coverpage` blob NOT NULL,
-  `ebook` longblob NOT NULL,
+  `ebook` mediumblob NOT NULL,
   PRIMARY KEY (`isbn`),
   KEY `publisher_id` (`publisher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
