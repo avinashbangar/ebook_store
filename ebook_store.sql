@@ -26,6 +26,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `admin` (
+'id' int not null auto_increment,
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   PRIMARY KEY (`username`)

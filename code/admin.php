@@ -10,19 +10,32 @@ if ($_POST)
 	$pass = $_POST['password'];
 	
 	
-	$result = mysqli_query($con,"SELECT * FROM admin WHERE username='" .$username."' and password='" .$pass. "'");
+	// $result = mysqli_query($con,"SELECT * FROM admin WHERE username='" .$username."' and password='" .$pass. "'");
+// 	
+// 	if($result){
+// 
+// 		$_SESSION['user'] = $username;
+// 		header('Location:admin_home.php');
+// 		
+// 	}else{
+// 		
+// 		echo "Incorrect username/password, Please try again";
+// 		
+// 	}
 	
-	if($result){
-
+	$stmt=$con->prepare("select id from admin where username=? and password=?");
+	$stmt->bind_param("ss",$username,$pass);
+	$stmt->execute();
+	$row = $stmt->fetch();
+	if($row==1)
+	{
 		$_SESSION['user'] = $username;
 		header('Location:admin_home.php');
-		
-	}else{
-		
-		echo "Incorrect username/password, Please try again";
-		
-	}
-	
+		}
+		else{
+		echo "Incorrect username/password, please try again";
+		}
+	$stmt->close();
 
 }
 ?>
