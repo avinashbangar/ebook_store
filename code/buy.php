@@ -22,8 +22,15 @@
 		  $result = mysqli_query($con,"SELECT * FROM book WHERE isbn=".$_SESSION['isbn']);
 		  if($result)
 		 {
-		 	echo "<p class='priceMessage'>Your purchase price is ".$result['price'].".</p>";
-		 }?>
+		 	if($result->num_rows>0)
+			{
+	 	 		while($row = mysqli_fetch_array($result))
+	  			{
+		 			echo "<p class='priceMessage'>Your purchase price is ".$row['price'].".</p>";
+				}
+			}
+		 }
+		 ?>
 		<table border="1" class="table">
 			<tr>
 				<td class="Title">Credit Card Details</td>
