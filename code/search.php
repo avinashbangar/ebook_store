@@ -45,8 +45,7 @@
 			
 			//create a prepared statement
 			if ($stmt = $con->prepare($query_template . " AND (
-																author.first_name LIKE CONCAT('%', ?, '%') 
-																OR author.last_name LIKE CONCAT('%', ?, '%') 
+																author.first_name LIKE CONCAT('%', ?, '%')  
 																OR author.last_name LIKE CONCAT('%', ?, '%')
 															   )"))
     		{
@@ -54,7 +53,7 @@
 				$success_flag = true; 
 				
 				//bind parameters for title
-				$stmt->bind_param("sss", $search_arr[0], $search_arr[0], $search_arr[1]);			
+				$stmt->bind_param("ss", $search_arr[0], $search_arr[0]);			
 			}
 		}else if($_POST['option'] == 'publisher'){
 		

@@ -7,7 +7,7 @@
 	   $greaterThan8 = false;
 	   $symbols = false;
 	   
-	   if(strlen($password) > 8) {
+	   if(strlen($password) >= 8) {
 	       $greaterThan8 = true;
 	   }
 	   

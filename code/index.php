@@ -40,7 +40,6 @@ if ($_POST)
 				}	
 			} 
 			 else{
-				printf("No rows found! \n");
 				printf("Incorrect email/password");
 			}
 		}
