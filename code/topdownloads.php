@@ -16,7 +16,7 @@
 	<body>
 	<table border="1">
 		<tr>
-		     <td>ISDN</td>
+		     <td>ISBN</td>
 			 <td>BOOK</td>
 			 <td>Downloads</td>
 			 <td>&nbsp;</td>
