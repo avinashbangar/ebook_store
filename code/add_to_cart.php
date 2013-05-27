@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	require 'session.php';
 	require 'connect.php';
 	include_once 'Utility.php';
@@ -39,4 +40,5 @@
 
 		echo "Invalid Book, please try again!";
 	}
+	//ob_end_flush();
 ?>

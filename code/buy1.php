@@ -119,8 +119,10 @@
 	  		{
 				$isbn = $row['isbn'];
 				$ticket = GenerateRandomString();
+
 				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket, downloaded) VALUES (?,?,?,?)");
 				$stmt->bind_param("iisi",$user['id'],$isbn,hash('sha512',$ticket),intval(0));
+
 				if($stmt->execute()){
 					echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download this book: ".$row['title']."</a>";
 				}

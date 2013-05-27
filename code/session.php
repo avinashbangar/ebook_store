@@ -7,7 +7,7 @@
 	
     if(check_cookie() || !isset($_SESSION['id']) )
 	{
-		$session = aes128ctr_de(get_cookie_value(),'a4t14A20z',12345);
+		$session = fnDecrypt(get_cookie_value(),'a4t14A20z');
 		$hashed = GenerateHashedString($session);
 		$result = mysqli_query($con,"select * from session where id = '$hashed'");
 		if($result)

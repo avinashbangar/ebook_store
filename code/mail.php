@@ -1,6 +1,6 @@
  <?php
 	require 'connect.php';
-	require 'Utility.php';
+	include_once 'Utility.php';
 	
 /* 	function GenerateRandomString()
 	{
