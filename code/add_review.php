@@ -8,7 +8,6 @@
 <?php
 if($_POST){
 	$session = GenerateHashedString($_SESSION['id']);
-	//echo "SESSION['id']:" . $_SESSION['id'] . "session:" . $session . "<BR>";
 	$str = "select user_id from session where id = '$session'";
 	if($result = $con->query($str)) {
 		if($row = $result->fetch_row()) {

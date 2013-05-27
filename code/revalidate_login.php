@@ -23,12 +23,9 @@ if ($_POST)
 			 $stmt->bind_result($id);
 					  
 			 if($stmt->fetch()) {
-				//$isbn = $_SESSION['isbn'];
-				//header("Location:buy1.php?isbn=".$isbn."");
 				header("Location: buy1.php");
 			 } 
 			 else{
-				printf("No rows found! \n");
 				printf("Incorrect email/password");
 			}
 			$stmt->close();

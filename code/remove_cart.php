@@ -7,7 +7,6 @@
 	$isbn = $_GET['isbn'];
 	
 	$session = GenerateHashedString($_SESSION['id']);
-	//echo $session;
 	$userresult = mysqli_query($con,"SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')");
 	$user = mysqli_fetch_array($userresult);
 

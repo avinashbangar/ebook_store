@@ -30,7 +30,6 @@ if ($_POST)
 {
 	$email = $_POST['email'];
 	$pass = $_POST['password'];
-	//$isbn = $_POST['isbn'];
 	$username=$_POST['email'];
 
 	//create a prepared statement
