@@ -1,19 +1,43 @@
 <?php
-session_start();
-require 'connect.php';
-include_once 'Utility.php';
-require 'Cookies/cookies.php';
-//require 'session.php'; 
-
+	require 'session.php';
+	require 'connect.php';
+	
+if($_GET)
+{
+	$isbn = $_GET['isbn'];
+	if ($stmt = $con->prepare("SELECT title FROM book WHERE isbn=?")) {
+		$stmt->bind_param("i", $isbn);
+		 if(false == $stmt->execute()) {
+		 	printf("Error");
+		 }		
+		 else {
+			 //bind result variable
+			 $stmt->bind_result($title);
+			 if($stmt->fetch())
+			 {
+			    $_SESSION['isbn'] = $isbn; 
+			 }
+			 else
+			 {
+			    printf("Book does not exists");
+			 }
+			 $stmt->close();
+	}
+	
+}}
+	
 if ($_POST)
 {
 	$email = $_POST['email'];
 	$pass = $_POST['password'];
+	//$isbn = $_POST['isbn'];
+	$username=$_POST['email'];
+
 	//create a prepared statement
 	if ($stmt = $con->prepare("SELECT id FROM user WHERE email=? and password=?")) {
 		//bind parameters for email and password. bind password after encryption
 		$encryptedPassword = hash('sha512', $pass);
-		$stmt->bind_param("ss", $email, $encryptedPassword);
+		$stmt->bind_param("ss", $email, $encryptedPassword);		
 		
 		//execute the query
 		 if(false == $stmt->execute()) {
@@ -24,25 +48,13 @@ if ($_POST)
 			 $stmt->bind_result($id);
 					  
 			 if($stmt->fetch()) {
-			    $stmt->close(); 
-			    $session_id = GenerateRandomString();
-				$session_id = $session_id.$_SERVER['REMOTE_ADDR'];
-				$_SESSION['id'] = $session_id;
-				
-				$hashed = GenerateHashedString($session_id);
-				$str = "insert into session(id,user_id) values('$hashed' , ".$id.")";
-				$result = mysqli_query($con,$str);
-			
-				if($result)
-				{
-					set_cookie(fnEncrypt($session_id,'a4t14A20z'));
-					header('Location:home.php');
-				}	
-			} 
+				header("Location: buy.php");
+			 } 
 			 else{
 				printf("No rows found! \n");
 				printf("Incorrect email/password");
 			}
+			$stmt->close();
 		}
 	}
 	else{
@@ -50,25 +62,20 @@ if ($_POST)
 	}
 }
 
-
 ?>
 <html>
 <head>
-	<title> Ebook Store</title>
-	<script type="text/javascript" src="livevalidation_standalone.compressed.js"></script>
-	<script type="text/javascript">
-		function alert(Input)
-		{
-			window.alert(Input);
-		}
-	</script>
-	<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
+	<title>Re-login page!</title>
+	<link href="Styles/Revalidate_login.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="body">
+<body>
+<p><a class="paragraph" href="home.php">Home</a></p>
+	<p><a class="paragraph" href="logout.php">Logout</a></p>
 	<div class="content">	
-		<p class="title">Welcome to Online Ebook Store</p>
-		<a href="registration.php" class="title">Sign Up!</a>
-			<form action="index.php" method="POST" class="form">
+		<?php
+			echo"<p class='paragraph'>Please provide your password again for re-validation.</p>";
+		?>
+		<form action="revalidate_login1.php" method="POST" class="form">
 				<table class="table">
 					<tr>
 						<td>Email</td>
@@ -92,16 +99,8 @@ if ($_POST)
 						<td><input type="submit" name="Login" value="Login"></td>
 					</tr>
 				</table>
-				<table>
-					<tr>
-						<td>
-							<a href="recovery.php">Forgot your password?</a>
-						</td>
-					</tr>
-				</table>
-			</form>
-	</div>
-</body>
-</html>
-
-
+				</form>
+				</div>
+				</body>
+				
+				</html>

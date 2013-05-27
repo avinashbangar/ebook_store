@@ -1,7 +1,8 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
-	require 'mail.php';
+	include_once 'mail.php';
+	include_once 'Utility.php';
 
 ?>
 <html>
@@ -18,12 +19,15 @@
 <?php 
 	if($_POST){
 		
-		$user_id = $_SESSION['cuserid'];
-		$isbn = $_POST['isbn'];
+  $session = GenerateHashedString($_SESSION['id']);
+  $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+  $userresult = mysqli_query($con,$str);
+  $user = mysqli_fetch_array($userresult);
+		$isbn = $_SESSION['isbn'];
 		$ticket = GenerateRandomString();
 		
 		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
-		$stmt->bind_param("iis",$user_id,$isbn,hash('sha512',$ticket));
+		$stmt->bind_param("iis",$user['id'],$isbn,hash('sha512',$ticket));
 		if($stmt->execute()){
 			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
 		}

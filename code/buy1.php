@@ -1,7 +1,8 @@
 <?php 
 	require 'session.php';
 	require 'connect.php';
-	require 'mail.php';
+	include_once 'mail.php';
+	include_once 'Utility.php';
 
 ?>
 <html>
@@ -10,8 +11,11 @@
 </head>
 <body class="body">
 <?php
-  $user_id = $_SESSION['cuserid'];
-  $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
+  $session = GenerateHashedString($_SESSION['id']);
+  $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+  $userresult = mysqli_query($con,$str);
+  $user = mysqli_fetch_array($userresult);
+  $result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user['id'].")");
   if($result)
   {?>
 <div class="content">
@@ -44,7 +48,7 @@
 ?>
 </div>
 <div class="content">
-	<form action="" method="POST" class="form">
+	<form action="buy1.php" method="POST" class="form">
 		<input type="hidden" name="total" value="<?php echo $sum; ?>">
 		<table border="1" class="table">
 			<tr>
@@ -104,8 +108,11 @@
 <?php 
 	if($_POST){
 		
-		$user_id = $_SESSION['cuserid'];
-  		$result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user_id.")");
+  $session = GenerateHashedString($_SESSION['id']);
+  $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+  $userresult = mysqli_query($con,$str);
+  $user = mysqli_fetch_array($userresult);		
+  		$result = mysqli_query($con,"SELECT * FROM book WHERE isbn IN (SELECT book_isbn FROM cart where user_id = ".$user['id'].")");
   		if($result->num_rows>0)
 		{
 			while($row = mysqli_fetch_array($result))
@@ -114,7 +121,7 @@
 				$ticket = GenerateRandomString();
 				
 				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket) VALUES (?,?,?)");
-				$stmt->bind_param("iis",$user_id,$isbn,hash('sha512',$ticket));
+				$stmt->bind_param("iis",$user['id'],$isbn,hash('sha512',$ticket));
 				if($stmt->execute()){
 					echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download this book: ".$row['title']."</a>";
 				}

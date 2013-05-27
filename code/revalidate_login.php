@@ -1,13 +1,12 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
-	
+	include_once 'Utility.php';
+
 if ($_POST)
 {
 	$email = $_POST['email'];
 	$pass = $_POST['password'];
-	//$isbn = $_POST['isbn'];
-	$username=$_POST['email'];
 
 	//create a prepared statement
 	if ($stmt = $con->prepare("SELECT id FROM user WHERE email=? and password=?")) {
@@ -24,11 +23,9 @@ if ($_POST)
 			 $stmt->bind_result($id);
 					  
 			 if($stmt->fetch()) {
-				$_SESSION['cuser'] = $email;
-				$_SESSION['cuserid'] = $id;
-				$isbn = $_SESSION['isbn'];
+				//$isbn = $_SESSION['isbn'];
 				//header("Location:buy1.php?isbn=".$isbn."");
-				header("Location:buy1.php");
+				header("Location: buy1.php");
 			 } 
 			 else{
 				printf("No rows found! \n");
@@ -53,16 +50,13 @@ if ($_POST)
 	<p><a class="paragraph" href="logout.php">Logout</a></p>
 	<div class="content">	
 		<?php
-			echo "<p class='title'>Welcome ".$_SESSION['cuser']."!</p>";
 			echo"<p class='paragraph'>Please provide your password again for re-validation.</p>";
-			// echo "<p class='title'>".$_GET['isbn']."</p>";
-			// echo $_GET['isbn'];
 		?>
 		<form action="revalidate_login.php" method="POST" class="form">
 				<table class="table">
 					<tr>
 						<td>Email</td>
-						<td><input type="text" value="<?php echo $_SESSION['cuser']?>" name="email" id="f1">
+						<td><input type="text" name="email" id="f1">
 							<script type="text/javascript">
 				         	var f1 = new LiveValidation('f1');
 				           	f1.add(Validate.Presence);
