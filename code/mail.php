@@ -94,7 +94,7 @@
 		$mail->Subject  = "First PHPMailer Message";
 		
 		////////////////          UPDATE ADDRESS!!!   //////////////////
-		$mail->Body     = "Hi! \n\n This is your validation ticket to reset your password: ".$ticket.".\n\n You can reset your password with this ticket in the address http://54.214.242.33/ebook_store/code/PasswordReset.php";
+		$mail->Body     = "Hi! \n\n This is your validation ticket to reset your password: ".$ticket.".\n\n You can reset your password with this ticket in the address https://54.214.242.33/ebook_store/code/PasswordReset.php";
 		$mail->WordWrap = 50;  
 		 
 		if(!$mail->Send()) {
