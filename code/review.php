@@ -17,7 +17,11 @@
 <?php
 
 	if($_GET){
-		$user_id = $_SESSION['cuserid'];
+		$session = GenerateHashedString($_SESSION['id']);
+		$str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+		$userresult = mysqli_query($con,$str);
+		$user = mysqli_fetch_array($userresult);	
+		$user_id = $user['id'];
 		$isbn = $_GET['isbn'];
 		
 		

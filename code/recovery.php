@@ -7,12 +7,12 @@
 	{
 		$email = $_POST['email'];
 		//first we check if the email exists in our database
-		//if (CheckEmail($email))
-		//{
+		if (CheckEmail($email))
+		{
 			sendmail($email);
-		//}else{
-		//	alert('There is no such mail in our database');
-		//}
+		}else{
+			alert('There is no such mail in our database');
+		}
 	}
 ?>
 <html>

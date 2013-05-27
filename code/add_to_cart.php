@@ -15,8 +15,7 @@
 		if($row == 1){
 		    $stmt->close();
 			$session = GenerateHashedString($_SESSION['id']);
-			//echo $session;
-			echo $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+			$str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
 			$userresult = mysqli_query($con,$str);
 			$user = mysqli_fetch_array($userresult);
 
