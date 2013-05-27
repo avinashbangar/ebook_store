@@ -2,7 +2,6 @@
 	require 'connect.php';
 	require 'validation.php';
 	require 'mail.php';
-	require 'session.php';
 	
 	if($_POST)
 	{
