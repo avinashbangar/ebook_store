@@ -88,10 +88,10 @@
 <html>
 <head>
 	<title>Search for Ebooks!</title>
-
+<link href="Styles/Style.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-		<div align="center">
+<body class="body">
+		<div class="content">
 			<a href="home.php">Ebooks List</a>
 			<a href="logout.php">Logout</a>
 			<p>Search for Ebooks</p>

@@ -20,7 +20,7 @@
 			$user = mysqli_fetch_array($userresult);
 			echo "<p class='title'>Welcome ". $user['first_name'] ."!</p>";
 		?>
-		<a href="logout.php" class="paragraph">Logout</a>
+		<a href="logout.php" class="paragraph_Center2">Logout</a>
 
 				<p class="paragraph_Center"><b>Ebooks List</b></p>
 				<p class="paragraph_Center"><a href="search.php" class="paragraph">Search</a>
