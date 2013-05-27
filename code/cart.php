@@ -4,9 +4,15 @@
 	include_once 'Utility.php';
 
 ?>
+<html>
+<head>
+	<title>Your Shopping Cart!</title>
+	<link href="Styles/search.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="content">
 	<a href="home.php">Home</a>
-	<p>My cart</p>
-
+	<p class="paragraph">Your Shopping Cart</p>
 
 		<?php
 			$session = GenerateHashedString($_SESSION['id']);

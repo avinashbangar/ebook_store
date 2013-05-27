@@ -23,9 +23,9 @@
 		<a href="logout.php" class="paragraph">Logout</a>
 
 				<p class="paragraph_Center"><b>Ebooks List</b></p>
-				<p><a href="search.php" class="paragraph">Search</a>
-				<p><a href="topdownloads.php" class="paragraph">Top Downloads</a>
-				<p><a href="cart.php" class="paragraph">My Cart</a>
+				<p class="paragraph_Center"><a href="search.php" class="paragraph">Search</a>
+				<a href="topdownloads.php" class="paragraph">Top Downloads</a>
+				<a href="cart.php" class="paragraph">My Cart</a></p>
 				    <table border="1" class="form">
 				    	<tr>
 				    		<td><b>ISBN</b></td>
