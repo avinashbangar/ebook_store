@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `user_id` int(11) NOT NULL,
   `book_isbn` int(11) NOT NULL,
   `hash_Ticket` char(128) NOT NULL,
+  `downloaded` INT(11) NOT NULL,
   KEY `user_id` (`user_id`,`book_isbn`),
   KEY `book_isbn` (`book_isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
