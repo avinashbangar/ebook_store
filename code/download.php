@@ -21,11 +21,11 @@
 							header("Content-type: application/pdf");
 				  			header("Content-Disposition: attachment; filename=".$title."");
 				  			header("Content-Description: PHP Generated Data");
-							header('Content-Transfer-Encoding: binary');
+							/*header('Content-Transfer-Encoding: binary');
     						header('Expires: 0');
     						header('Cache-Control: must-revalidate');
   							header('Pragma: public');
-							header('Content-Length: ' . filesize($title));
+							header('Content-Length: ' . filesize($title));*/
 							echo $ebook;
 				  			//echo $ebook;
 				  			/*
