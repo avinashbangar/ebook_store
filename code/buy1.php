@@ -21,7 +21,7 @@
 <div class="content">
 	<a href="home.php" class="paragraph">Home</a>
 	<a href="logout.php" class="paragraph" style="float:right;">Logout</a>
-    <table border="1" class="table" style="max-width: 100px;margin-left: 50px;">
+    <table border="1" class="table" style="max-width: 200px;margin-left: 50px;">
     <tr>
         <td>Book</td>
 		<td>Price</td>
