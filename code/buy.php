@@ -26,11 +26,23 @@
 		$isbn = $_SESSION['isbn'];
 		$ticket = GenerateRandomString();
 		
-		$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket, downloaded) VALUES (?,?,?,?)");
-		$stmt->bind_param("iisi",$user_id,$isbn,hash('sha512',$ticket), intval(0));
-
+				$intvar = intval(0);
+				$hashvar  = hash('sha512',$ticket);
+				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket, downloaded) VALUES (?,?,?,?)");
+				$stmt->bind_param("iisi",$user['id'],$isbn,$hashvar,$intvar);
+				
+				
 		if($stmt->execute()){
 			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
+			$stmt->close();
+		    //Delete from cart where user_id = and book_isbn =
+			$stmt1 = $con->prepare("Delete from cart where user_id = ? and book_isbn = ?");
+			$stmt1->bind_param("ii",$user['id'],$isbn);
+			if(!$stmt1->execute())
+			  {
+				 echo "Error in process";
+			  }
+			  $stmt1->close();
 		}
 		else{
 			echo "The book was not purchased, please try again!";
