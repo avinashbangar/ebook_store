@@ -1,8 +1,6 @@
 <?php
 	require 'session.php';
 	require 'connect.php';
-	//require 'validation.php';
-	//require 'mail.php';
 
 	if($_GET){
 

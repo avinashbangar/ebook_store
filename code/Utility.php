@@ -5,9 +5,6 @@
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 		return $randomString;
 	}
-	
-//echo $encrypted = fnEncrypt('the bomb will blow up at 1 pm','ajinkya');
-//echo fnDecrypt($encrypted,'ajinkya');
 
 	
 function fnEncrypt($sValue, $sSecretKey)
@@ -52,7 +49,7 @@ function fnDecrypt($sValue, $sSecretKey)
 	{
 		//Generates the hashed value of a string and returns its value
 		//$6 --> Algorithm prefix
-		//$rounds --> nº of times the algorithm is going to be looping
+		//$rounds --> nï¿½ of times the algorithm is going to be looping
 		//$SillyString -->string used for encryption.
 		$hashed = crypt($input,'$6$rounds=8000$Pikachu3Dabai4$');
 		
