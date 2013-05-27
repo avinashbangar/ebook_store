@@ -54,7 +54,7 @@
 		
 		//execute the query
 		 $stmt->execute();
-		 if(1==$stmt->num_rows()) {
+		 if(1==$stmt->num_rows) {
 		 	
 			//There is a user with such an email, password and in the correct timestamp
 			return true;
@@ -94,7 +94,7 @@
 		$mail->Subject  = "First PHPMailer Message";
 		
 		////////////////          UPDATE ADDRESS!!!   //////////////////
-		$mail->Body     = "Hi! \n\n This is your validation ticket to reset your password: ".$ticket.".\n\n You can reset your password with this ticket in the address https://54.214.242.33/ebook_store/code/PasswordReset.php";
+		$mail->Body     = "Hi! \n\n This is your validation ticket to reset your password: ".$ticket."\n\n You can reset your password with this ticket in the address https://54.214.242.33/ebook_store/code/PasswordReset.php";
 		$mail->WordWrap = 50;  
 		 
 		if(!$mail->Send()) {
