@@ -65,7 +65,6 @@
 		$mail->CharSet="UTF-8";
 		$mail->SMTPSecure = 'tls';
 		$mail->Host = 'smtp.gmail.com';
-		$mail->SMTPDebug  = 2;
 		$mail->SMTPSecure = 'tls';
 		$mail->Port = 587;
 		$mail->SMTPAuth = true; // turn on SMTP authentication
