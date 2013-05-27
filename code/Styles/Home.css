@@ -43,6 +43,14 @@ body
 	font-weight: bolder;
 	font-size: 120%;
 }
+.paragraph_Center2
+{
+	margin-left:120px;
+	font-weight: bolder;
+	font-size: 120%;
+	padding-left:80%;
+}
+
 .form
 {
 	display:block;
