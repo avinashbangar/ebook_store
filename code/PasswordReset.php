@@ -2,7 +2,6 @@
 	require 'connect.php';
 	require 'validation.php';
 	require 'mail.php';
-	require 'registration.php';
 	
 	if($_POST)
 	{
@@ -41,6 +40,27 @@
 			}
 		}
 	}
+
+	function isPasswordStrong($password) {
+		
+		   $upperAndNumber = false;
+		   $greaterThan8 = false;
+		   $symbols = false;
+		   
+		   if(strlen($password) >= 8) {
+		       $greaterThan8 = true;
+		   }
+		   
+		   if((preg_match('/[A-Z]/', $password)) && (preg_match('/[0-9]/', $password)))
+		   {
+		    	$upperAndNumber = true;
+		   }
+		   if(preg_match('/[!@#$%^&*()]/', $password)) {
+	        	$symbols = true;
+	      }
+							
+		   return ($upperAndNumber && $greaterThan8 && $symbols);
+		}
 ?>
 <html>
 <head>
