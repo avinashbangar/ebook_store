@@ -73,7 +73,7 @@
 		$mail->From     = "lareostia@gmail.com";
 		$mail->AddAddress($address);  
 		 
-		$mail->Subject  = "First PHPMailer Message";
+		$mail->Subject  = "Password change from Ebook store";
 		
 		////////////////          UPDATE ADDRESS!!!   //////////////////
 		$mail->Body     = "Hi! \n\n This is your validation ticket to reset your password: ".$ticket."\n\n You can reset your password with this ticket in the address https://54.214.242.33/PasswordReset.php";
