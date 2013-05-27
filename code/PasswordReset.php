@@ -2,6 +2,7 @@
 	require 'connect.php';
 	require 'validation.php';
 	require 'mail.php';
+	require 'registration.php';
 	
 	if($_POST)
 	{
@@ -13,6 +14,11 @@
 		if ($newPassword != $newPasswordBis)
 		{
 			alert('The passwords do not match. Please try it again');
+		}else if(!isPasswordStrong($newPassword))
+		{
+			alert('Password not strong enough: Please ensure that the password is atleast 8 characters long 
+ 						and has an upper case, a number and one of these special characters:
+ 						!@#$%^&*()');
 		}else
 		{
 			//first we check if the email exists in our database
@@ -25,6 +31,7 @@
 					//$hashedValue = GenerateHashedString($newPassword);
 					$hashedValue = hash('sha512', $newPassword);
 					UpdatePassword($hashedValue, $email);
+					header('Location:index.php');
 				}
 				else {
 					alert('There seems to be some problem with your ticket. Please try again or if the problem persists obtain a new ticket.');
