@@ -8,7 +8,7 @@
 	<p><a class="paragraph" href="home.php">Home</a></p>
 	<!-- <p> -->
 <?php
-    $result = mysqli_query($con,"SELECT a.isbn as isbn, a.title as title, count(a.title) as count from ebook_store.book as a, ebook_store.order WHERE a.isbn = ebook_store.order.book_isbn Group by isbn Order by count desc");
+    $result = mysqli_query($con,"SELECT a.isbn as isbn, a.title as title, count(a.title) as count from ebook_store.book as a, ebook_store.order WHERE a.isbn = ebook_store.order.book_isbn Group by isbn Order by count desc LIMIT 10");
 	if($result)
     {
 	?>
