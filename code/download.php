@@ -19,19 +19,7 @@
 							header("Content-type: application/pdf");
 				  			header("Content-Disposition: attachment; filename=".$title."");
 				  			header("Content-Description: PHP Generated Data");
-							/*header('Content-Transfer-Encoding: binary');
-    						header('Expires: 0');
-    						header('Cache-Control: must-revalidate');
-  							header('Pragma: public');
-							header('Content-Length: ' . filesize($title));*/
 							echo $ebook;
-				  			//echo $ebook;
-				  			/*
-				  			header("Content-type: image/jpg");
-				  			header("Content-Disposition: attachment; filename=".$row['title']."");
-				  			header("Content-Description: PHP Generated Data");
-				  			echo $row['coverpage'];
-				  			*/
 				  		}
 						//we delete the permissions for that file
 						$stmt->close();
