@@ -16,44 +16,14 @@
 		<a href="home.php" class="title">Home</a>
 		<a href="logout.php" class="title" style="float:right;margin-right:30px;">Logout</a>
 	</div>
-<?php 
-	if($_POST){
-		
-  $session = GenerateHashedString($_SESSION['id']);
-  $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
-  $userresult = mysqli_query($con,$str);
-  $user = mysqli_fetch_array($userresult);
-		$isbn = $_SESSION['isbn'];
-		$ticket = GenerateRandomString();
-		
-				$intvar = intval(0);
-				$hashvar  = hash('sha512',$ticket);
-				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket, downloaded) VALUES (?,?,?,?)");
-				$stmt->bind_param("iisi",$user['id'],$isbn,$hashvar,$intvar);
-				
-				
-		if($stmt->execute()){
-			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank'>Download Ebook!</a>";
-			$stmt->close();
-		    //Delete from cart where user_id = and book_isbn =
-			$stmt1 = $con->prepare("Delete from cart where user_id = ? and book_isbn = ?");
-			$stmt1->bind_param("ii",$user['id'],$isbn);
-			if(!$stmt1->execute())
-			  {
-				 echo "Error in process";
-			  }
-			  $stmt1->close();
-		}
-		else{
-			echo "The book was not purchased, please try again!";
-		}
-	}
-
-?>
-
-
 	<form action="buy.php" method="POST" class="form">
 		<input type="hidden" name="isbn" value="<?php echo $_GET['isbn']; ?>">
+		<?php
+		  $result = mysqli_query($con,"SELECT * FROM book WHERE isbn=".$_SESSION['isbn']);
+		  if($result)
+		 {
+		 	echo "<p class='priceMessage'>Your purchase price is ".$result['price'].".</p>";
+		 }?>
 		<table border="1" class="table">
 			<tr>
 				<td class="Title">Credit Card Details</td>
@@ -107,7 +77,40 @@
 			</tr>
 		</table>
 	</form>
+	<?php 
+	if($_POST){
+		
+  $session = GenerateHashedString($_SESSION['id']);
+  $str = "SELECT id, first_name from user Where id IN (Select user_id  from session Where id = '$session')";
+  $userresult = mysqli_query($con,$str);
+  $user = mysqli_fetch_array($userresult);
+		$isbn = $_SESSION['isbn'];
+		$ticket = GenerateRandomString();
+		
+				$intvar = intval(0);
+				$hashvar  = hash('sha512',$ticket);
+				$stmt = $con->prepare("INSERT INTO `order` (user_id,book_isbn,hash_Ticket, downloaded) VALUES (?,?,?,?)");
+				$stmt->bind_param("iisi",$user['id'],$isbn,$hashvar,$intvar);
+				
+				
+		if($stmt->execute()){
+			echo "<br/><a href='download.php?isbn=".$isbn."&ticket=".$ticket."' target='_blank' class='paragraph'>Download Ebook!</a>";
+			$stmt->close();
+		    //Delete from cart where user_id = and book_isbn =
+			$stmt1 = $con->prepare("Delete from cart where user_id = ? and book_isbn = ?");
+			$stmt1->bind_param("ii",$user['id'],$isbn);
+			if(!$stmt1->execute())
+			  {
+				 echo "Error in process";
+			  }
+			  $stmt1->close();
+		}
+		else{
+			echo "The book was not purchased, please try again!";
+		}
+	}
 
+?>
 </div>	
 </body>
 </html>

@@ -19,6 +19,8 @@
   if($result)
   {?>
 <div class="content">
+	<a href="home.php" class="paragraph">Home</a>
+	<a href="logout.php" class="paragraph" style="float:right;">Logout</a>
     <table border="1" class="table" style="max-width: 100px;margin-left: 50px;">
     <tr>
         <td>Book</td>
@@ -103,7 +105,7 @@
 			</tr>
 		</table>
 	</form>
-
+	<a href="cart.php" class="paragraph">Cancel</a>
 </div>	
 <?php 
 	if($_POST){
@@ -146,6 +148,5 @@
 
 ?>
 </br></br>
-<a href="cart.php">Cancel</a>
 </body>
 </html>
