@@ -146,7 +146,8 @@
 								  		<?php echo '<img src="data:image/jpeg;base64,' . base64_encode( $coverpage) . '" heigh="92" width="42"/>'; ?>
 								  	</td>
 								  	<td><a href="review.php?isbn=<?php echo $isbn ?>">Review</a></td>
-								  	<td><a href="buy.php?isbn=<?php echo $isbn ?>">Buy</a></td>
+								  	<!-- <td><a href="buy.php?isbn=<?php echo $isbn ?>">Buy</a></td> -->
+								  	<td><a href="add_to_cart.php?isbn=<?php echo $isbn?>">Add to cart</a></td>
 								  </tr>
 								<?php } //end while
 								$stmt->close();

@@ -19,6 +19,7 @@
 		     <td>ISDN</td>
 			 <td>BOOK</td>
 			 <td>Downloads</td>
+			 <td>&nbsp;</td>
 		</tr>	
 		<?php
 	   while($row = mysqli_fetch_array($result))
@@ -27,6 +28,7 @@
 			  <td><?php echo "".$row['isbn'];?></td>	
 		      <td><?php echo "".$row['title'];?></td>
 			  <td><?php echo "".$row['count'];?></td>
+			  <td><a href="add_to_cart.php?isbn=<?php echo $row['isbn']?>">Add to cart</a></td>
 		 </tr>	
 	   <?php } ?>
 	   </table>
