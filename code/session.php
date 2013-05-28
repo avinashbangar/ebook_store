@@ -8,6 +8,7 @@
     if(check_cookie() || !isset($_SESSION['id']) )
 	{
 		$session = fnDecrypt(get_cookie_value(),'a4t14A20z');
+		if (strpos($session,$_SERVER['REMOTE_ADDR']) !== false) {
 		$hashed = GenerateHashedString($session);
 		$result = mysqli_query($con,"select * from session where id = '$hashed'");
 		if($result)
@@ -21,6 +22,11 @@
 				header('Location:index.php');
 			}	
 		}
+		else
+		{
+			header('Location:index.php');
+		}	
+	}
 		else
 		{
 			header('Location:index.php');
