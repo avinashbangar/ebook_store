@@ -19,14 +19,19 @@ if($_POST){
 			//echo "user_id:" . $user_id . "<BR>";
 			// Sanitizing user input to encode html special characters to avoid xss attacks 
 			$review = htmlspecialchars($review);
-			$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
-			$stmt->bind_param("sss",$user_id,$isbn,$review);
-			if($stmt->execute()){
-				//echo "Review added successfully!";
+			if ($review != ''){
+				$stmt=$con->prepare("insert into ebook_store.reviews(user_id,book_isbn,review) values(?,?,?)");
+				$stmt->bind_param("sss",$user_id,$isbn,$review);
+				if($stmt->execute()){
+					//echo "Review added successfully!";
+				}
+				else{
+					echo "The review for the book was not added, please try again";
+					//echo mysqli_error($con);
+				}
 			}
 			else{
 				echo "The review for the book was not added, please try again";
-				//echo mysqli_error($con);
 			}
 		}
 		else {
