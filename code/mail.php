@@ -5,7 +5,7 @@
 	
 	function UpdatePassword($hashedValue, $address)
 	{
-		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
+		$con=mysqli_connect("localhost","root","baddal171garajrahahai","ebook_store");
 		$stmt = $con->prepare("UPDATE user SET password=?, pwd_timeStamp=CURRENT_TIMESTAMP() WHERE email=?");
 		//bind parameters for email and password
 		$stmt->bind_param("ss", $hashedValue, $address);
@@ -25,7 +25,7 @@
 	
 	function CheckTicket($email,$resetTicket)
 	{
-		$con=mysqli_connect("localhost","root","maha2013","ebook_store");
+		$con=mysqli_connect("localhost","root","baddal171garajrahahai","ebook_store");
 		//This function will return true if the email exists in the database, the password assigned to that mail is
 		//the hash function of the ticket and that the ticket has not yet expired. It will return false otherwise.
 		$hashedValue = GenerateHashedString($resetTicket);
